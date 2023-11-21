@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMR.TimeClock.UI", "CMR.TimeClock.UI\CMR.TimeClock.UI.csproj", "{A965B29C-A8DA-4B86-824E-180E15163BDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMR.TimeClock.BL", "CMR.TimeClock.BL\CMR.TimeClock.BL.csproj", "{40DD765D-5416-471C-9568-D6E5A0DD7D3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A965B29C-A8DA-4B86-824E-180E15163BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A965B29C-A8DA-4B86-824E-180E15163BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A965B29C-A8DA-4B86-824E-180E15163BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40DD765D-5416-471C-9568-D6E5A0DD7D3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40DD765D-5416-471C-9568-D6E5A0DD7D3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40DD765D-5416-471C-9568-D6E5A0DD7D3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40DD765D-5416-471C-9568-D6E5A0DD7D3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
