@@ -19,8 +19,22 @@ namespace CMR.TimeClock.UI
             InitializeComponent();
 
             entryLog.LoadTestData();
+            RebindEntryLog();
         }
 
 
+        // methods
+        private void RebindEntryLog()
+        {
+            dgvEntryLog.DataSource = null;
+            dgvEntryLog.DataSource = entryLog;
+        }
+
+        private void btnClockIn_Click(object sender, EventArgs e)
+        {
+            TimeEntry timeEntry = new TimeEntry(DateTime.Now);
+            entryLog.Add(timeEntry);
+            RebindEntryLog();
+        }
     }
 }
