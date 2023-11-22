@@ -10,9 +10,16 @@
         // constructors
         public TimeEntry() { }
 
-        public TimeEntry(DateTime timeIn) { }
+        public TimeEntry(DateTime timeIn)
+        {
+            TimeIn = timeIn;
+        }
 
-        public TimeEntry (DateTime timeIn, DateTime timeOut) { }
+        public TimeEntry (DateTime timeIn, DateTime timeOut)
+        {
+            TimeIn = timeIn;
+            TimeOut = timeOut;
+        }
 
 
     }
