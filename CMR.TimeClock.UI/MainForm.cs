@@ -6,6 +6,7 @@
  * Last Update:     
 */
 using CMR.TimeClock.BL;
+using System.Windows.Forms;
 
 namespace CMR.TimeClock.UI
 {
@@ -28,6 +29,10 @@ namespace CMR.TimeClock.UI
         {
             dgvEntryLog.DataSource = null;
             dgvEntryLog.DataSource = entryLog;
+            for (int i = 0; i < dgvEntryLog.ColumnCount; i++)
+            {
+                dgvEntryLog.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
         }
 
         private void btnClockIn_Click(object sender, EventArgs e)
