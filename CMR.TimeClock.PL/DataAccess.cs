@@ -5,7 +5,27 @@ namespace CMR.TimeClock.PL
     public static class DataAccess
     {
         // properties
-        public static string XMLFilePath { get; set; } = String.Empty;
+        public static string XMLFilePath
+        {
+            get => _xmlFilePath;
+            set
+            {
+                if (_xmlFilePath != value)
+                {
+                    _xmlFilePath = value;
+
+                    // Get the directory where the .exe is located
+                    string exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+                    // Construct the file path for the XML file
+                    _xmlFilePath = Path.Combine(exeDirectory, value); 
+
+                    // Perform additional actions if needed
+                    // For example, checking if the file exists or creating a new file
+                }
+            }
+        }
+        private static string _xmlFilePath = String.Empty;
 
 
 
