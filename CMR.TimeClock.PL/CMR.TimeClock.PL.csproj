@@ -7,8 +7,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CMR.TimeClock.PL\CMR.TimeClock.PL.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -6,7 +6,7 @@
  * Last Update:     
 */
 using CMR.TimeClock.BL;
-using System.Windows.Forms;
+using CMR.TimeClock.PL;
 
 namespace CMR.TimeClock.UI
 {
@@ -19,7 +19,17 @@ namespace CMR.TimeClock.UI
         {
             InitializeComponent();
 
-            entryLog.LoadTestData();
+            try
+            {
+                Type type = typeof(EntryLog);
+                entryLog = (EntryLog)DataAccess.LoadFromXML(type);
+            }
+            catch
+            {
+                //entryLog.LoadTestData();
+            }
+
+
             RebindEntryLog();
         }
 
@@ -56,6 +66,11 @@ namespace CMR.TimeClock.UI
                     RebindEntryLog();
                 }
             }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            entryLog.SaveToXML();
         }
     }
 }

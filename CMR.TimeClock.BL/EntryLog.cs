@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CMR.TimeClock.PL;
 
 namespace CMR.TimeClock.BL
 {
     public class EntryLog : List<TimeEntry>
     {
         // constructors
-        public EntryLog() { }
+        public EntryLog()
+        {
+            DataAccess.XMLFilePath = "EntryLog.xml";
+        }
 
 
         // methods
@@ -32,6 +31,11 @@ namespace CMR.TimeClock.BL
             entry.EntryID = this.Count + 1; // Assign a unique ID
 
             base.Add(entry); // Add the entry to the list
+        }
+
+        public void SaveToXML()
+        {
+            DataAccess.SaveToXML(typeof(EntryLog), this);
         }
     }
 }

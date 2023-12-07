@@ -73,6 +73,7 @@
             Controls.Add(btnClockIn);
             Name = "MainForm";
             Text = "Time Clock";
+            FormClosing += MainForm_FormClosing;
             ((System.ComponentModel.ISupportInitialize)dgvEntryLog).EndInit();
             ResumeLayout(false);
         }
