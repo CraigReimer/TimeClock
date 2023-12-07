@@ -31,14 +31,16 @@
             btnClockIn = new Button();
             btnClockOut = new Button();
             dgvEntryLog = new DataGridView();
+            btnUpdateEntry = new Button();
+            btnDeleteEntry = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvEntryLog).BeginInit();
             SuspendLayout();
             // 
             // btnClockIn
             // 
-            btnClockIn.Location = new Point(12, 12);
+            btnClockIn.Location = new Point(463, 577);
             btnClockIn.Name = "btnClockIn";
-            btnClockIn.Size = new Size(200, 50);
+            btnClockIn.Size = new Size(376, 50);
             btnClockIn.TabIndex = 0;
             btnClockIn.Text = "Clock In";
             btnClockIn.UseVisualStyleBackColor = true;
@@ -46,9 +48,9 @@
             // 
             // btnClockOut
             // 
-            btnClockOut.Location = new Point(240, 12);
+            btnClockOut.Location = new Point(463, 633);
             btnClockOut.Name = "btnClockOut";
-            btnClockOut.Size = new Size(200, 50);
+            btnClockOut.Size = new Size(376, 50);
             btnClockOut.TabIndex = 0;
             btnClockOut.Text = "Clock Out";
             btnClockOut.UseVisualStyleBackColor = true;
@@ -57,19 +59,41 @@
             // dgvEntryLog
             // 
             dgvEntryLog.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvEntryLog.Location = new Point(12, 68);
+            dgvEntryLog.Location = new Point(12, 43);
             dgvEntryLog.Name = "dgvEntryLog";
             dgvEntryLog.RowTemplate.Height = 25;
-            dgvEntryLog.Size = new Size(428, 470);
+            dgvEntryLog.Size = new Size(428, 696);
             dgvEntryLog.TabIndex = 1;
+            // 
+            // btnUpdateEntry
+            // 
+            btnUpdateEntry.Location = new Point(463, 689);
+            btnUpdateEntry.Name = "btnUpdateEntry";
+            btnUpdateEntry.Size = new Size(175, 50);
+            btnUpdateEntry.TabIndex = 0;
+            btnUpdateEntry.Text = "Update";
+            btnUpdateEntry.UseVisualStyleBackColor = true;
+            btnUpdateEntry.Click += btnClockIn_Click;
+            // 
+            // btnDeleteEntry
+            // 
+            btnDeleteEntry.Location = new Point(664, 689);
+            btnDeleteEntry.Name = "btnDeleteEntry";
+            btnDeleteEntry.Size = new Size(175, 50);
+            btnDeleteEntry.TabIndex = 0;
+            btnDeleteEntry.Text = "Delete";
+            btnDeleteEntry.UseVisualStyleBackColor = true;
+            btnDeleteEntry.Click += btnClockIn_Click;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(452, 601);
+            ClientSize = new Size(866, 760);
             Controls.Add(dgvEntryLog);
             Controls.Add(btnClockOut);
+            Controls.Add(btnDeleteEntry);
+            Controls.Add(btnUpdateEntry);
             Controls.Add(btnClockIn);
             Name = "MainForm";
             Text = "Time Clock";
@@ -83,5 +107,7 @@
         private Button btnClockIn;
         private Button btnClockOut;
         private DataGridView dgvEntryLog;
+        private Button btnUpdateEntry;
+        private Button btnDeleteEntry;
     }
 }
