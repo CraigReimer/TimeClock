@@ -5,7 +5,7 @@ namespace CMR.TimeClock.PL
     public static class DataAccess
     {
         // properties
-        public static string XMLFilePath { get; set; }
+        public static string XMLFilePath { get; set; } = String.Empty;
 
 
 

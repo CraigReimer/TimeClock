@@ -28,7 +28,8 @@ namespace CMR.TimeClock.BL
 
         public new void Add(TimeEntry entry)
         {
-            entry.EntryID = this.Count + 1; // Assign a unique ID
+            // TODO: remove if using DB
+            entry.EntryID = this.Count + 1; // Assign a semi-unique ID based on list size 
 
             base.Add(entry); // Add the entry to the list
         }
