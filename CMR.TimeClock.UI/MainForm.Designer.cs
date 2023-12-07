@@ -52,6 +52,7 @@
             btnClockOut.TabIndex = 0;
             btnClockOut.Text = "Clock Out";
             btnClockOut.UseVisualStyleBackColor = true;
+            btnClockOut.Click += btnClockOut_Click;
             // 
             // dgvEntryLog
             // 

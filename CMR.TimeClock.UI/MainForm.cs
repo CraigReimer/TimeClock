@@ -27,9 +27,10 @@ namespace CMR.TimeClock.UI
         // methods
         private void RebindEntryLog()
         {
-            dgvEntryLog.DataSource = null;
-            dgvEntryLog.DataSource = entryLog;
-            for (int i = 0; i < dgvEntryLog.ColumnCount; i++)
+            dgvEntryLog.DataSource = null; // unhook the list
+            dgvEntryLog.DataSource = entryLog; // rebind the list
+
+            for (int i = 0; i < dgvEntryLog.ColumnCount; i++) // auto size columns
             {
                 dgvEntryLog.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
@@ -40,6 +41,21 @@ namespace CMR.TimeClock.UI
             TimeEntry timeEntry = new TimeEntry(DateTime.Now);
             entryLog.Add(timeEntry);
             RebindEntryLog();
+        }
+
+        private void btnClockOut_Click(object sender, EventArgs e)
+        {
+            if (entryLog.Count > 0)
+            {
+                // get the last entry
+                TimeEntry? lastEntry = entryLog.LastOrDefault(entry => entry.TimeOut == DateTime.MinValue);
+
+                if (lastEntry != null)
+                {
+                    lastEntry.TimeOut = DateTime.Now;
+                    RebindEntryLog();
+                }
+            }
         }
     }
 }

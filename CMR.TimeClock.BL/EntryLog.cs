@@ -26,5 +26,12 @@ namespace CMR.TimeClock.BL
             timeEntry = new TimeEntry(DateTime.Parse("2020-10-03 11:00:00"), DateTime.Parse("2020-10-03 14:00:00"));
             Add(timeEntry);
         }
+
+        public new void Add(TimeEntry entry)
+        {
+            entry.EntryID = this.Count + 1; // Assign a unique ID
+
+            base.Add(entry); // Add the entry to the list
+        }
     }
 }

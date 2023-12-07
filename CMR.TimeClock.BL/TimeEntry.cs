@@ -4,7 +4,11 @@
     {
         // properties
         public DateTime TimeIn { get; set; }
+        
         public DateTime TimeOut { get; set; }
+
+        public int EntryID { get; set; }
+
 
 
         // constructors
