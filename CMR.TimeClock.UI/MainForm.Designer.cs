@@ -31,7 +31,6 @@
             btnClockIn = new Button();
             btnClockOut = new Button();
             dgvEntryLog = new DataGridView();
-            btnUpdateEntry = new Button();
             btnDeleteEntry = new Button();
             lblEntryLog = new Label();
             rdoWorking = new RadioButton();
@@ -43,9 +42,9 @@
             // 
             // btnClockIn
             // 
-            btnClockIn.Location = new Point(16, 62);
+            btnClockIn.Location = new Point(16, 73);
             btnClockIn.Name = "btnClockIn";
-            btnClockIn.Size = new Size(342, 50);
+            btnClockIn.Size = new Size(340, 75);
             btnClockIn.TabIndex = 0;
             btnClockIn.Text = "Clock In";
             btnClockIn.UseVisualStyleBackColor = true;
@@ -53,9 +52,9 @@
             // 
             // btnClockOut
             // 
-            btnClockOut.Location = new Point(16, 131);
+            btnClockOut.Location = new Point(16, 169);
             btnClockOut.Name = "btnClockOut";
-            btnClockOut.Size = new Size(342, 50);
+            btnClockOut.Size = new Size(340, 75);
             btnClockOut.TabIndex = 0;
             btnClockOut.Text = "Clock Out";
             btnClockOut.UseVisualStyleBackColor = true;
@@ -69,25 +68,16 @@
             dgvEntryLog.RowTemplate.Height = 25;
             dgvEntryLog.Size = new Size(568, 696);
             dgvEntryLog.TabIndex = 1;
-            dgvEntryLog.SelectionChanged += dgvEntryLog_SelectionChanged;
-            // 
-            // btnUpdateEntry
-            // 
-            btnUpdateEntry.Location = new Point(16, 199);
-            btnUpdateEntry.Name = "btnUpdateEntry";
-            btnUpdateEntry.Size = new Size(150, 50);
-            btnUpdateEntry.TabIndex = 0;
-            btnUpdateEntry.Text = "Update";
-            btnUpdateEntry.UseVisualStyleBackColor = true;
             // 
             // btnDeleteEntry
             // 
-            btnDeleteEntry.Location = new Point(208, 199);
+            btnDeleteEntry.Location = new Point(27, 787);
             btnDeleteEntry.Name = "btnDeleteEntry";
-            btnDeleteEntry.Size = new Size(150, 50);
+            btnDeleteEntry.Size = new Size(150, 83);
             btnDeleteEntry.TabIndex = 0;
-            btnDeleteEntry.Text = "Delete";
+            btnDeleteEntry.Text = "Delete Entry";
             btnDeleteEntry.UseVisualStyleBackColor = true;
+            btnDeleteEntry.Click += btnDeleteEntry_Click;
             // 
             // lblEntryLog
             // 
@@ -122,13 +112,11 @@
             // 
             // grpControls
             // 
-            grpControls.Controls.Add(btnDeleteEntry);
-            grpControls.Controls.Add(btnUpdateEntry);
             grpControls.Controls.Add(btnClockOut);
             grpControls.Controls.Add(btnClockIn);
             grpControls.Controls.Add(rdoTraining);
             grpControls.Controls.Add(rdoWorking);
-            grpControls.Location = new Point(109, 777);
+            grpControls.Location = new Point(209, 781);
             grpControls.Name = "grpControls";
             grpControls.Size = new Size(371, 265);
             grpControls.TabIndex = 8;
@@ -139,6 +127,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(594, 1106);
+            Controls.Add(btnDeleteEntry);
             Controls.Add(grpControls);
             Controls.Add(lblEntryLog);
             Controls.Add(dgvEntryLog);
@@ -157,7 +146,6 @@
         private Button btnClockIn;
         private Button btnClockOut;
         private DataGridView dgvEntryLog;
-        private Button btnUpdateEntry;
         private Button btnDeleteEntry;
         private Label lblEntryLog;
         private RadioButton rdoWorking;

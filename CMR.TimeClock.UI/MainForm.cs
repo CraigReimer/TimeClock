@@ -41,7 +41,7 @@ namespace CMR.TimeClock.UI
             dgvEntryLog.DataSource = entryLog; // rebind the list
 
             dgvEntryLog.Columns["IsLogged"].HeaderText = "Logged";
-            dgvEntryLog.Columns["_EntryType"].HeaderText = "Type";
+            dgvEntryLog.Columns["_EntryType"].HeaderText = "Time Type";
 
             for (int i = 0; i < dgvEntryLog.ColumnCount; i++) // auto size columns
             {
@@ -82,9 +82,24 @@ namespace CMR.TimeClock.UI
             entryLog.SaveToXML();
         }
 
-        private void dgvEntryLog_SelectionChanged(object sender, EventArgs e)
+        private void btnDeleteEntry_Click(object sender, EventArgs e)
         {
-            // TimeEntry? selectedEntry = dgvEntryLog.SelectedCells as TimeEntry;
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this entry?", "Confirm", MessageBoxButtons.OKCancel);
+
+            if (dialogResult == DialogResult.OK)
+            {
+                if (dgvEntryLog.SelectedRows.Count > 0)
+                {
+                    DataGridViewRow selectedRow = dgvEntryLog.SelectedRows[0]; // Get the first selected row
+
+                    // Access the TimeEntry object stored in the row's DataBoundItem
+                    if (selectedRow.DataBoundItem is TimeEntry selectedEntry)
+                    {
+                        entryLog.Remove(selectedEntry);
+                        RebindEntryLog();
+                    }
+                }
+            }
         }
     }
 }

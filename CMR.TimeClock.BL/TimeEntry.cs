@@ -16,6 +16,24 @@
         public DateTime TimeIn { get; set; }
         
         public DateTime TimeOut { get; set; }
+
+        public String ElapsedTime
+        {
+            get
+            {
+                if (TimeOut == DateTime.MinValue || TimeOut < TimeIn)
+                {
+                    return String.Empty; // TimeOut not set or invalid
+                }
+                else
+                {
+                    TimeSpan elapsedTime = TimeOut - TimeIn;
+                    return $"{(int)elapsedTime.TotalHours:00}:{elapsedTime.Minutes:00}";
+                }
+                
+            }
+            set { }
+        }
         
         public bool IsLogged { get; set; }
 
