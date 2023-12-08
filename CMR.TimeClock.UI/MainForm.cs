@@ -3,10 +3,11 @@
  * Description:     A simple time clock for logging in and out times
  * Author:          Craig Reimer
  * First Publish:   
- * Last Update:     12-7-2023
+ * Last Update:     12-8-2023
 */
 using CMR.TimeClock.BL;
 using CMR.TimeClock.PL;
+using System.Windows.Forms;
 
 namespace CMR.TimeClock.UI
 {
@@ -40,13 +41,24 @@ namespace CMR.TimeClock.UI
             dgvEntryLog.DataSource = null; // unhook the list
             dgvEntryLog.DataSource = entryLog; // rebind the list
 
-            dgvEntryLog.Columns["IsLogged"].HeaderText = "Logged";
-            dgvEntryLog.Columns["_EntryType"].HeaderText = "Time Type";
 
+            // format the grid
             for (int i = 0; i < dgvEntryLog.ColumnCount; i++) // auto size columns
             {
                 dgvEntryLog.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
+
+            dgvEntryLog.AllowUserToResizeRows = false;
+
+            dgvEntryLog.Columns["EntryID"].HeaderText = "ID";
+            dgvEntryLog.Columns["TimeIn"].HeaderText = "Time In";
+            dgvEntryLog.Columns["TimeOut"].HeaderText = "Time Out";
+            dgvEntryLog.Columns["ElapsedTime"].HeaderText = "Duration";
+            dgvEntryLog.Columns["IsLogged"].HeaderText = "Logged";
+            dgvEntryLog.Columns["_EntryType"].HeaderText = "Time Type";
+            dgvEntryLog.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgvEntryLog.RowHeadersWidth = 35;
+
         }
 
         private void btnClockIn_Click(object sender, EventArgs e)

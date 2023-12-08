@@ -42,7 +42,8 @@
             // 
             // btnClockIn
             // 
-            btnClockIn.Location = new Point(16, 73);
+            btnClockIn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnClockIn.Location = new Point(28, 73);
             btnClockIn.Name = "btnClockIn";
             btnClockIn.Size = new Size(340, 75);
             btnClockIn.TabIndex = 0;
@@ -52,7 +53,8 @@
             // 
             // btnClockOut
             // 
-            btnClockOut.Location = new Point(16, 169);
+            btnClockOut.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnClockOut.Location = new Point(28, 169);
             btnClockOut.Name = "btnClockOut";
             btnClockOut.Size = new Size(340, 75);
             btnClockOut.TabIndex = 0;
@@ -63,17 +65,19 @@
             // dgvEntryLog
             // 
             dgvEntryLog.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvEntryLog.Location = new Point(12, 43);
+            dgvEntryLog.Location = new Point(36, 40);
+            dgvEntryLog.Margin = new Padding(5, 5, 5, 5);
             dgvEntryLog.Name = "dgvEntryLog";
             dgvEntryLog.RowTemplate.Height = 25;
-            dgvEntryLog.Size = new Size(568, 696);
+            dgvEntryLog.Size = new Size(520, 696);
             dgvEntryLog.TabIndex = 1;
             // 
             // btnDeleteEntry
             // 
-            btnDeleteEntry.Location = new Point(27, 787);
+            btnDeleteEntry.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            btnDeleteEntry.Location = new Point(36, 771);
             btnDeleteEntry.Name = "btnDeleteEntry";
-            btnDeleteEntry.Size = new Size(150, 83);
+            btnDeleteEntry.Size = new Size(77, 254);
             btnDeleteEntry.TabIndex = 0;
             btnDeleteEntry.Text = "Delete Entry";
             btnDeleteEntry.UseVisualStyleBackColor = true;
@@ -82,18 +86,20 @@
             // lblEntryLog
             // 
             lblEntryLog.AutoSize = true;
-            lblEntryLog.Location = new Point(14, 20);
+            lblEntryLog.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblEntryLog.Location = new Point(36, 14);
             lblEntryLog.Name = "lblEntryLog";
-            lblEntryLog.Size = new Size(57, 15);
+            lblEntryLog.Size = new Size(76, 21);
             lblEntryLog.TabIndex = 2;
             lblEntryLog.Text = "Entry Log";
             // 
             // rdoWorking
             // 
             rdoWorking.AutoSize = true;
+            rdoWorking.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             rdoWorking.Location = new Point(16, 22);
             rdoWorking.Name = "rdoWorking";
-            rdoWorking.Size = new Size(101, 19);
+            rdoWorking.Size = new Size(128, 25);
             rdoWorking.TabIndex = 5;
             rdoWorking.TabStop = true;
             rdoWorking.Text = "Hours Worked";
@@ -102,9 +108,10 @@
             // rdoTraining
             // 
             rdoTraining.AutoSize = true;
-            rdoTraining.Location = new Point(236, 22);
+            rdoTraining.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            rdoTraining.Location = new Point(266, 22);
             rdoTraining.Name = "rdoTraining";
-            rdoTraining.Size = new Size(102, 19);
+            rdoTraining.Size = new Size(130, 25);
             rdoTraining.TabIndex = 5;
             rdoTraining.TabStop = true;
             rdoTraining.Text = "Training Hours";
@@ -116,9 +123,9 @@
             grpControls.Controls.Add(btnClockIn);
             grpControls.Controls.Add(rdoTraining);
             grpControls.Controls.Add(rdoWorking);
-            grpControls.Location = new Point(209, 781);
+            grpControls.Location = new Point(147, 771);
             grpControls.Name = "grpControls";
-            grpControls.Size = new Size(371, 265);
+            grpControls.Size = new Size(409, 283);
             grpControls.TabIndex = 8;
             grpControls.TabStop = false;
             // 
@@ -126,6 +133,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Control;
             ClientSize = new Size(594, 1106);
             Controls.Add(btnDeleteEntry);
             Controls.Add(grpControls);
