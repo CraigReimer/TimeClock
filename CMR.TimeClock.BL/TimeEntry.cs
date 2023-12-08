@@ -9,14 +9,14 @@
             Training
         }
 
-        
+
         // properties
+        public int EntryID { get; set; }
+
         public DateTime TimeIn { get; set; }
         
         public DateTime TimeOut { get; set; }
-
-        public int EntryID { get; set; }
-
+        
         public bool IsLogged { get; set; }
 
         public EntryType _EntryType { get; set; }

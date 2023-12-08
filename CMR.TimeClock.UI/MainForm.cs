@@ -40,6 +40,9 @@ namespace CMR.TimeClock.UI
             dgvEntryLog.DataSource = null; // unhook the list
             dgvEntryLog.DataSource = entryLog; // rebind the list
 
+            dgvEntryLog.Columns["IsLogged"].HeaderText = "Logged";
+            dgvEntryLog.Columns["_EntryType"].HeaderText = "Type";
+
             for (int i = 0; i < dgvEntryLog.ColumnCount; i++) // auto size columns
             {
                 dgvEntryLog.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
@@ -49,6 +52,12 @@ namespace CMR.TimeClock.UI
         private void btnClockIn_Click(object sender, EventArgs e)
         {
             TimeEntry timeEntry = new TimeEntry(DateTime.Now);
+
+            if (rdoTraining.Checked)
+            {
+                timeEntry._EntryType = TimeEntry.EntryType.Training;
+            }
+
             entryLog.Add(timeEntry);
             RebindEntryLog();
         }
@@ -71,6 +80,11 @@ namespace CMR.TimeClock.UI
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             entryLog.SaveToXML();
+        }
+
+        private void dgvEntryLog_SelectionChanged(object sender, EventArgs e)
+        {
+            // TimeEntry? selectedEntry = dgvEntryLog.SelectedCells as TimeEntry;
         }
     }
 }
