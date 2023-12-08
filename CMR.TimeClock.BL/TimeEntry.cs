@@ -2,12 +2,24 @@
 {
     public class TimeEntry
     {
+        // define entry types
+        public enum EntryType
+        {
+            Working,
+            Training
+        }
+
+        
         // properties
         public DateTime TimeIn { get; set; }
         
         public DateTime TimeOut { get; set; }
 
         public int EntryID { get; set; }
+
+        public bool IsLogged { get; set; }
+
+        public EntryType _EntryType { get; set; }
 
 
 
@@ -25,6 +37,19 @@
             TimeOut = timeOut;
         }
 
+        public TimeEntry(DateTime timeIn, DateTime timeOut, EntryType entryType)
+        {
+            TimeIn = timeIn;
+            TimeOut = timeOut;
+            _EntryType = entryType;
+        }
 
+        public TimeEntry(DateTime timeIn, DateTime timeOut, EntryType entryType, bool isLogged)
+        {
+            TimeIn = timeIn;
+            TimeOut = timeOut;
+            _EntryType = entryType;
+            IsLogged = isLogged;
+        }
     }
 }
