@@ -20,8 +20,6 @@ namespace CMR.TimeClock.PL
                     // Construct the file path for the XML file
                     _xmlFilePath = Path.Combine(exeDirectory, value); 
 
-                    // Perform additional actions if needed
-                    // For example, checking if the file exists or creating a new file
                 }
             }
         }
