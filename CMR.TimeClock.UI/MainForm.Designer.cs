@@ -36,6 +36,8 @@
             rdoWorking = new RadioButton();
             rdoTraining = new RadioButton();
             grpControls = new GroupBox();
+            lblTimeType = new Label();
+            lblStatus = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvEntryLog).BeginInit();
             grpControls.SuspendLayout();
             SuspendLayout();
@@ -43,7 +45,7 @@
             // btnClockIn
             // 
             btnClockIn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnClockIn.Location = new Point(28, 73);
+            btnClockIn.Location = new Point(148, 104);
             btnClockIn.Name = "btnClockIn";
             btnClockIn.Size = new Size(340, 75);
             btnClockIn.TabIndex = 0;
@@ -54,7 +56,7 @@
             // btnClockOut
             // 
             btnClockOut.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnClockOut.Location = new Point(28, 169);
+            btnClockOut.Location = new Point(148, 200);
             btnClockOut.Name = "btnClockOut";
             btnClockOut.Size = new Size(340, 75);
             btnClockOut.TabIndex = 0;
@@ -66,7 +68,7 @@
             // 
             dgvEntryLog.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEntryLog.Location = new Point(36, 40);
-            dgvEntryLog.Margin = new Padding(5, 5, 5, 5);
+            dgvEntryLog.Margin = new Padding(5);
             dgvEntryLog.Name = "dgvEntryLog";
             dgvEntryLog.RowTemplate.Height = 25;
             dgvEntryLog.Size = new Size(520, 696);
@@ -75,9 +77,9 @@
             // btnDeleteEntry
             // 
             btnDeleteEntry.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnDeleteEntry.Location = new Point(36, 771);
+            btnDeleteEntry.Location = new Point(29, 104);
             btnDeleteEntry.Name = "btnDeleteEntry";
-            btnDeleteEntry.Size = new Size(77, 254);
+            btnDeleteEntry.Size = new Size(77, 171);
             btnDeleteEntry.TabIndex = 0;
             btnDeleteEntry.Text = "Delete Entry";
             btnDeleteEntry.UseVisualStyleBackColor = true;
@@ -96,8 +98,9 @@
             // rdoWorking
             // 
             rdoWorking.AutoSize = true;
+            rdoWorking.Checked = true;
             rdoWorking.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            rdoWorking.Location = new Point(16, 22);
+            rdoWorking.Location = new Point(148, 34);
             rdoWorking.Name = "rdoWorking";
             rdoWorking.Size = new Size(128, 25);
             rdoWorking.TabIndex = 5;
@@ -109,33 +112,59 @@
             // 
             rdoTraining.AutoSize = true;
             rdoTraining.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            rdoTraining.Location = new Point(266, 22);
+            rdoTraining.Location = new Point(358, 34);
             rdoTraining.Name = "rdoTraining";
             rdoTraining.Size = new Size(130, 25);
             rdoTraining.TabIndex = 5;
-            rdoTraining.TabStop = true;
             rdoTraining.Text = "Training Hours";
             rdoTraining.UseVisualStyleBackColor = true;
             // 
             // grpControls
             // 
+            grpControls.Controls.Add(lblTimeType);
+            grpControls.Controls.Add(btnDeleteEntry);
             grpControls.Controls.Add(btnClockOut);
             grpControls.Controls.Add(btnClockIn);
             grpControls.Controls.Add(rdoTraining);
             grpControls.Controls.Add(rdoWorking);
-            grpControls.Location = new Point(147, 771);
+            grpControls.Location = new Point(36, 810);
             grpControls.Name = "grpControls";
-            grpControls.Size = new Size(409, 283);
+            grpControls.Size = new Size(520, 305);
             grpControls.TabIndex = 8;
             grpControls.TabStop = false;
+            grpControls.Text = "Entry Controls";
+            // 
+            // lblTimeType
+            // 
+            lblTimeType.AutoSize = true;
+            lblTimeType.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            lblTimeType.Location = new Point(29, 36);
+            lblTimeType.Name = "lblTimeType";
+            lblTimeType.Size = new Size(83, 21);
+            lblTimeType.TabIndex = 6;
+            lblTimeType.Text = "Time Type:";
+            // 
+            // lblStatus
+            // 
+            lblStatus.BackColor = SystemColors.ControlDark;
+            lblStatus.BorderStyle = BorderStyle.FixedSingle;
+            lblStatus.Font = new Font("Century Gothic", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
+            lblStatus.ForeColor = Color.Lime;
+            lblStatus.Location = new Point(36, 741);
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(520, 66);
+            lblStatus.TabIndex = 9;
+            lblStatus.Text = "Clocked In";
+            lblStatus.TextAlign = ContentAlignment.MiddleCenter;
+            lblStatus.Visible = false;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(594, 1106);
-            Controls.Add(btnDeleteEntry);
+            ClientSize = new Size(594, 1130);
+            Controls.Add(lblStatus);
             Controls.Add(grpControls);
             Controls.Add(lblEntryLog);
             Controls.Add(dgvEntryLog);
@@ -159,5 +188,7 @@
         private RadioButton rdoWorking;
         private RadioButton rdoTraining;
         private GroupBox grpControls;
+        private Label lblTimeType;
+        private Label lblStatus;
     }
 }

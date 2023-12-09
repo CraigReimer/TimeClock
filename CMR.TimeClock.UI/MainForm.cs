@@ -50,6 +50,7 @@ namespace CMR.TimeClock.UI
 
             dgvEntryLog.AllowUserToResizeRows = false;
 
+
             dgvEntryLog.Columns["EntryID"].HeaderText = "ID";
             dgvEntryLog.Columns["TimeIn"].HeaderText = "Time In";
             dgvEntryLog.Columns["TimeOut"].HeaderText = "Time Out";
@@ -72,6 +73,8 @@ namespace CMR.TimeClock.UI
 
             entryLog.Add(timeEntry);
             RebindEntryLog();
+
+            lblStatus.Visible = true;
         }
 
         private void btnClockOut_Click(object sender, EventArgs e)
@@ -85,6 +88,8 @@ namespace CMR.TimeClock.UI
                 {
                     lastEntry.TimeOut = DateTime.Now;
                     RebindEntryLog();
+
+                    lblStatus.Visible = false;
                 }
             }
         }
