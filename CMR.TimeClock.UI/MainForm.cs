@@ -2,9 +2,11 @@
  * Title:           TimeClock
  * Description:     A simple time clock for logging in and out times
  * Author:          Craig Reimer
- * First Publish:   
- * Last Update:     12-8-2023
+ * First Publish:   12-7-2023
+ * Last Update:     12-9-2023
 */
+
+
 using CMR.TimeClock.BL;
 using CMR.TimeClock.PL;
 using System.Windows.Forms;
@@ -29,6 +31,8 @@ namespace CMR.TimeClock.UI
             catch
             {
                 //entryLog.LoadTestData();
+
+                MessageBox.Show("Error loading Entry Log");
             }
 
 
@@ -57,7 +61,7 @@ namespace CMR.TimeClock.UI
             dgvEntryLog.Columns["TimeOut"].HeaderText = "Time Out";
             dgvEntryLog.Columns["ElapsedTime"].HeaderText = "Duration";
             dgvEntryLog.Columns["IsLogged"].HeaderText = "Logged";
-            dgvEntryLog.Columns["_EntryType"].HeaderText = "Time Type";
+            dgvEntryLog.Columns["EntryType"].HeaderText = "Time Type";
             dgvEntryLog.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvEntryLog.RowHeadersWidth = 35;
 
@@ -72,7 +76,7 @@ namespace CMR.TimeClock.UI
 
             if (rdoTraining.Checked)
             {
-                timeEntry._EntryType = TimeEntry.EntryType.Training;
+                timeEntry.EntryType = TimeEntry.TimeType.Training;
             }
 
             entryLog.Add(timeEntry);
@@ -86,7 +90,7 @@ namespace CMR.TimeClock.UI
 
         private void btnClockOut_Click(object sender, EventArgs e)
         {
-            if (!StateManager.IsClockedIn() || entryLog.Count <= 0) return; // not clocked in
+            if (!StateManager.IsClockedIn()) return; // not clocked in
 
             // get the last entry
             TimeEntry? lastEntry = entryLog.LastOrDefault(entry => entry.TimeOut == DateTime.MinValue);
