@@ -16,6 +16,7 @@ namespace CMR.TimeClock.UI
         // fields
         private EntryLog entryLog = new EntryLog();
 
+
         public MainForm()
         {
             InitializeComponent();
@@ -64,6 +65,9 @@ namespace CMR.TimeClock.UI
 
         private void btnClockIn_Click(object sender, EventArgs e)
         {
+            if (StateManager.IsClockedIn()) return; // already clocked in
+                     
+            
             TimeEntry timeEntry = new TimeEntry(DateTime.Now);
 
             if (rdoTraining.Checked)
@@ -72,24 +76,47 @@ namespace CMR.TimeClock.UI
             }
 
             entryLog.Add(timeEntry);
+            StateManager.ClockIn();
+
             RebindEntryLog();
 
             lblStatus.Visible = true;
+
         }
 
         private void btnClockOut_Click(object sender, EventArgs e)
         {
-            if (entryLog.Count > 0)
+            if (!StateManager.IsClockedIn() || entryLog.Count <= 0) return; // not clocked in
+
+            // get the last entry
+            TimeEntry? lastEntry = entryLog.LastOrDefault(entry => entry.TimeOut == DateTime.MinValue);
+
+            if (lastEntry != null)
             {
-                // get the last entry
-                TimeEntry? lastEntry = entryLog.LastOrDefault(entry => entry.TimeOut == DateTime.MinValue);
+                lastEntry.TimeOut = DateTime.Now;
+                StateManager.ClockOut();
 
-                if (lastEntry != null)
+                RebindEntryLog();
+
+                lblStatus.Visible = false;
+            }
+        }
+
+        private void btnDeleteEntry_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButtons.OKCancel);
+
+            if (dialogResult != DialogResult.OK) return;
+
+            if (dgvEntryLog.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dgvEntryLog.SelectedRows[0]; // Get the first selected row
+
+                // Access the TimeEntry object stored in the row's DataBoundItem
+                if (selectedRow.DataBoundItem is TimeEntry selectedEntry)
                 {
-                    lastEntry.TimeOut = DateTime.Now;
+                    entryLog.Remove(selectedEntry);
                     RebindEntryLog();
-
-                    lblStatus.Visible = false;
                 }
             }
         }
@@ -97,26 +124,6 @@ namespace CMR.TimeClock.UI
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             entryLog.SaveToXML();
-        }
-
-        private void btnDeleteEntry_Click(object sender, EventArgs e)
-        {
-            DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this entry?", "Confirm", MessageBoxButtons.OKCancel);
-
-            if (dialogResult == DialogResult.OK)
-            {
-                if (dgvEntryLog.SelectedRows.Count > 0)
-                {
-                    DataGridViewRow selectedRow = dgvEntryLog.SelectedRows[0]; // Get the first selected row
-
-                    // Access the TimeEntry object stored in the row's DataBoundItem
-                    if (selectedRow.DataBoundItem is TimeEntry selectedEntry)
-                    {
-                        entryLog.Remove(selectedEntry);
-                        RebindEntryLog();
-                    }
-                }
-            }
         }
     }
 }

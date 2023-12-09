@@ -12,7 +12,7 @@ namespace CMR.TimeClock.BL
 
 
         // methods
-        public void LoadTestData()
+        public void LoadTestData()  // TODO: DELETE after File IO for Log files. Create a test log before deleting
         {
             TimeEntry timeEntry;
 
