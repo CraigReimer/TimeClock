@@ -62,16 +62,14 @@ namespace CMR.TimeClock.UI
         {
             if (StateManager.IsClockedIn) return; // already clocked in
 
-
-            TimeEntry timeEntry = new(DateTime.Now);
-
             if (rdoTraining.Checked)
             {
-                timeEntry.EntryType = TimeEntry.TimeType.Training;
+                StateManager.ClockIn(entryLog, true);
             }
-
-            entryLog.Add(timeEntry);
-            StateManager.ClockIn(entryLog);
+            else
+            {
+                StateManager.ClockIn(entryLog);
+            }
 
             RebindEntryLog();
 
@@ -83,18 +81,11 @@ namespace CMR.TimeClock.UI
         {
             if (!StateManager.IsClockedIn) return; // not clocked in
 
-            // get the last entry
-            TimeEntry? lastEntry = entryLog.LastOrDefault(entry => entry.TimeOut == DateTime.MinValue);
+            StateManager.ClockOut(entryLog);
+            
+            RebindEntryLog();
 
-            if (lastEntry != null)
-            {
-                lastEntry.TimeOut = DateTime.Now;
-                StateManager.ClockOut(entryLog);
-
-                RebindEntryLog();
-
-                lblStatus.Visible = false;
-            }
+            lblStatus.Visible = false;
         }
 
         private void btnDeleteEntry_Click(object sender, EventArgs e)
@@ -118,17 +109,7 @@ namespace CMR.TimeClock.UI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // check for unsaved changes
-            if (entryLog.LogChanged)
-            {
-                DialogResult result = MessageBox.Show("This log has unsaved changes.\nDo you want to save the changes?", "Save", MessageBoxButtons.YesNoCancel);
-
-                if (result == DialogResult.Yes)
-                {
-                    mnuSaveLog_Click(sender, e);  // call to SAVE
-                }
-
-            }
+            mnuExit_Click(sender, e);
         }
 
         private void mnuNewLog_Click(object sender, EventArgs e)

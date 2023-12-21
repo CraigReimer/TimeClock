@@ -35,15 +35,37 @@ namespace CMR.TimeClock.BL
 
 
         // methods
-        public static void ClockIn(EntryLog entryLog)
+        public static void ClockIn(EntryLog entryLog, bool isTraining = false)
         {
-            currentState = ClockState.ClockedIn;
-            
-            entryLog.LogChanged = true;  // flag the change to be saved
+            TimeEntry timeEntry;
+
+            if (isTraining)
+            {
+                timeEntry = new TimeEntry(DateTime.Now, TimeEntry.TimeType.Training);
+            }
+            else
+            {
+                timeEntry = new TimeEntry(DateTime.Now);
+            }
+
+            entryLog.Add(timeEntry); // add time entry
+
+            currentState = ClockState.ClockedIn; // change punch state
+
+            entryLog.LogChanged = true;  // flag the log as changed
         }
 
         public static void ClockOut(EntryLog entryLog)
         {
+            // get the last entry
+            TimeEntry? lastEntry = entryLog.LastOrDefault(entry => entry.TimeOut == DateTime.MinValue);
+
+            if (lastEntry != null)
+            {
+                lastEntry.TimeOut = DateTime.Now;
+
+            }
+
             currentState = ClockState.ClockedOut;
 
             entryLog.LogChanged = true;  // flag the change to be saved

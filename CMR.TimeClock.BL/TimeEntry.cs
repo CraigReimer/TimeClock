@@ -73,5 +73,11 @@
             TimeOut = timeOut;
         }
 
+        public TimeEntry(DateTime timeIn, TimeType entryType)
+        {
+            TimeIn = timeIn;
+            EntryType = entryType;
+        }
+
     }
 }

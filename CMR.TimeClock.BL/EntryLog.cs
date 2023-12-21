@@ -50,6 +50,13 @@ namespace CMR.TimeClock.BL
             base.Add(entry); // Add the entry to the list
         }
 
+        public new void Remove(TimeEntry entry)
+        {
+            LogChanged = true; // flag the change to be saved
+            
+            base.Remove(entry); // Remove the entry from the list
+        }
+
         public new void Clear()
         {
             LogChanged = false; // reset the flag
