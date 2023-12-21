@@ -4,6 +4,10 @@ namespace CMR.TimeClock.PL
 {
     public static class DataAccess
     {
+        // fields
+        private static string _xmlFilePath = String.Empty;
+
+
         // properties
         public static string XMLFilePath
         {
@@ -12,18 +16,10 @@ namespace CMR.TimeClock.PL
             {
                 if (_xmlFilePath != value)
                 {
-                    _xmlFilePath = value;
-
-                    // Get the directory where the .exe is located
-                    string exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
-                    // Construct the file path for the XML file
-                    _xmlFilePath = Path.Combine(exeDirectory, value); 
-
+                    _xmlFilePath = value;                 
                 }
             }
         }
-        private static string _xmlFilePath = String.Empty;
 
 
 
@@ -32,8 +28,8 @@ namespace CMR.TimeClock.PL
         {
             if (XMLFilePath == String.Empty) { throw new Exception("XMLFilePath was not specified"); }
 
-            StreamWriter writer = new StreamWriter(XMLFilePath);
-            XmlSerializer serializer = new XmlSerializer(type);
+            StreamWriter writer = new(XMLFilePath);
+            XmlSerializer serializer = new(type);
             serializer.Serialize(writer, o);
             writer.Close();
         }
@@ -42,8 +38,8 @@ namespace CMR.TimeClock.PL
         {
             if (XMLFilePath == String.Empty) { throw new Exception("XMLFilePath was not specified"); }
 
-            StreamReader reader = new StreamReader(XMLFilePath);
-            XmlSerializer serializer = new XmlSerializer(type);
+            StreamReader reader = new(XMLFilePath);
+            XmlSerializer serializer = new(type);
             object obj = serializer.Deserialize(reader)!;
             reader.Close();
             return obj;

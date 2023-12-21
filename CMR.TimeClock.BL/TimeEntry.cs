@@ -3,19 +3,37 @@
     public class TimeEntry
     {
         // define entry types
-        public enum TimeType
+        public enum TimeType 
         {
             Working,
             Training
         }
 
+        // fields
+        private DateTime timeIn;
+        private DateTime timeOut;
+
 
         // properties
         public int EntryID { get; set; }
 
-        public DateTime TimeIn { get; set; }
+        public DateTime TimeIn
+        {
+            get => timeIn;
+            set
+            {
+                timeIn = value.AddSeconds(-value.Second);
+            }
+        }
         
-        public DateTime TimeOut { get; set; }
+        public DateTime TimeOut
+        {
+            get => timeOut;
+            set
+            {
+                timeOut = value.AddSeconds(-value.Second);
+            }
+        }
 
         public String ElapsedTime
         {

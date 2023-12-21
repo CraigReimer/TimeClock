@@ -3,7 +3,7 @@
  * Description:     A simple time clock for logging in and out times
  * Author:          Craig Reimer
  * First Publish:   12-7-2023
- * Last Update:     12-9-2023
+ * Last Update:     12-21-2023
 */
 
 
@@ -16,27 +16,19 @@ namespace CMR.TimeClock.UI
     public partial class MainForm : Form
     {
         // fields
-        private EntryLog entryLog = new EntryLog();
+        public EntryLog entryLog = new();
 
 
         public MainForm()
         {
             InitializeComponent();
 
-            try
-            {
-                Type type = typeof(EntryLog);
-                entryLog = (EntryLog)DataAccess.LoadFromXML(type);
-            }
-            catch
-            {
-                //entryLog.LoadTestData();
+            this.StartPosition = FormStartPosition.Manual;
+            this.Location = new System.Drawing.Point(200, 50);
 
-                MessageBox.Show("Error loading Entry Log");
-            }
+            tmrDateAndTime_Tick(this, EventArgs.Empty);
 
-
-            RebindEntryLog();
+            UpdateStatusStrip();
         }
 
 
@@ -48,12 +40,11 @@ namespace CMR.TimeClock.UI
 
 
             // format the grid
-            for (int i = 0; i < dgvEntryLog.ColumnCount; i++) // auto size columns
+            for (int i = 0; i < dgvEntryLog.ColumnCount; i++)
             {
+                // auto size columns
                 dgvEntryLog.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
-
-            dgvEntryLog.AllowUserToResizeRows = false;
 
 
             dgvEntryLog.Columns["EntryID"].HeaderText = "ID";
@@ -62,17 +53,17 @@ namespace CMR.TimeClock.UI
             dgvEntryLog.Columns["ElapsedTime"].HeaderText = "Duration";
             dgvEntryLog.Columns["IsLogged"].HeaderText = "Logged";
             dgvEntryLog.Columns["EntryType"].HeaderText = "Time Type";
-            dgvEntryLog.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+
             dgvEntryLog.RowHeadersWidth = 35;
 
         }
 
         private void btnClockIn_Click(object sender, EventArgs e)
         {
-            if (StateManager.IsClockedIn()) return; // already clocked in
-                     
-            
-            TimeEntry timeEntry = new TimeEntry(DateTime.Now);
+            if (StateManager.IsClockedIn) return; // already clocked in
+
+
+            TimeEntry timeEntry = new(DateTime.Now);
 
             if (rdoTraining.Checked)
             {
@@ -80,7 +71,7 @@ namespace CMR.TimeClock.UI
             }
 
             entryLog.Add(timeEntry);
-            StateManager.ClockIn();
+            StateManager.ClockIn(entryLog);
 
             RebindEntryLog();
 
@@ -90,7 +81,7 @@ namespace CMR.TimeClock.UI
 
         private void btnClockOut_Click(object sender, EventArgs e)
         {
-            if (!StateManager.IsClockedIn()) return; // not clocked in
+            if (!StateManager.IsClockedIn) return; // not clocked in
 
             // get the last entry
             TimeEntry? lastEntry = entryLog.LastOrDefault(entry => entry.TimeOut == DateTime.MinValue);
@@ -98,7 +89,7 @@ namespace CMR.TimeClock.UI
             if (lastEntry != null)
             {
                 lastEntry.TimeOut = DateTime.Now;
-                StateManager.ClockOut();
+                StateManager.ClockOut(entryLog);
 
                 RebindEntryLog();
 
@@ -127,7 +118,157 @@ namespace CMR.TimeClock.UI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            entryLog.SaveToXML();
+            // check for unsaved changes
+            if (entryLog.LogChanged)
+            {
+                DialogResult result = MessageBox.Show("This log has unsaved changes.\nDo you want to save the changes?", "Save", MessageBoxButtons.YesNoCancel);
+
+                if (result == DialogResult.Yes)
+                {
+                    mnuSaveLog_Click(sender, e);  // call to SAVE
+                }
+
+            }
+        }
+
+        private void mnuNewLog_Click(object sender, EventArgs e)
+        {
+            if (entryLog != null)
+            {
+                // check for unsaved changes
+                if (entryLog.LogChanged)
+                {
+                    DialogResult result = MessageBox.Show("This log has unsaved changes.\nDo you want to save the changes?", "Save", MessageBoxButtons.YesNoCancel);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        mnuSaveLog_Click(sender, e);  // call to SAVE
+                    }
+                    else if (result == DialogResult.Cancel)
+                    {
+                        return;  // do nothing
+                    }
+                }
+            }
+
+            entryLog = new EntryLog();
+            RebindEntryLog();
+            UpdateStatusStrip();
+        }
+
+        private void mnuSaveLog_Click(object sender, EventArgs e)
+        {
+            // check if file has path
+            if (!entryLog.HasPath())
+            {
+                // File has no path, send to SaveAs
+                mnuSaveLogAs_Click(sender, e); return;
+            }
+
+            // check for unsaved changes
+            if (!entryLog.LogChanged)
+            {
+                MessageBox.Show("No changes to save."); return;
+            }
+
+
+            try
+            {
+                entryLog.SaveToXML();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void mnuSaveLogAs_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlgSave = new SaveFileDialog
+            {
+                Filter = "XML File|*.xml"
+            };
+
+            if (dlgSave.ShowDialog() == DialogResult.OK)
+            {
+                try
+                {
+                    entryLog.SaveAsXML(dlgSave.FileName);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
+            UpdateStatusStrip();
+        }
+
+        private void mnuExit_Click(object sender, EventArgs e)
+        {
+            if (entryLog.LogChanged)
+            {
+                DialogResult result = MessageBox.Show("This log has unsaved changes. Do you want to save the changes?", "Save", MessageBoxButtons.YesNoCancel);
+
+                if (result == DialogResult.Yes)
+                {
+                    mnuSaveLog_Click(sender, e);  // call to SAVE
+                }
+                else if (result == DialogResult.Cancel) return;
+            }
+
+            Application.Exit();
+        }
+
+        private void mnuOpenLog_Click(object sender, EventArgs e)
+        {
+            // check for unsaved changes
+            if (entryLog.LogChanged)
+            {
+                DialogResult result = MessageBox.Show("This log has unsaved changes. Do you want to save the changes?", "Save", MessageBoxButtons.YesNoCancel);
+
+                if (result == DialogResult.Yes)
+                {
+                    mnuSaveLog_Click(sender, e);  // call to SAVE
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    return;  // do nothing
+                }
+            }
+
+            OpenFileDialog dlgOpen = new OpenFileDialog
+            {
+                Filter = "XML File|*.xml"
+            };
+
+            if (dlgOpen.ShowDialog() == DialogResult.OK)
+            {
+                // clear the log contents
+                entryLog.Clear();
+
+                try
+                {
+                    entryLog.LoadFromXML(dlgOpen.FileName); // load the new log
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                RebindEntryLog(); // rebind the log
+                UpdateStatusStrip();
+            }
+        }
+
+        private void tmrDateAndTime_Tick(object sender, EventArgs e)
+        {
+            staTime.Text = DateTime.Now.ToString("h:mm:ss tt");
+        }
+
+        private void UpdateStatusStrip()
+        {
+            staFilePath.Text = "File: " + (entryLog.CurrentFilePath ?? "Untitled");
         }
     }
 }

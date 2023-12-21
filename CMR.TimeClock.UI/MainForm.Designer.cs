@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             btnClockIn = new Button();
             btnClockOut = new Button();
-            dgvEntryLog = new DataGridView();
             btnDeleteEntry = new Button();
             lblEntryLog = new Label();
             rdoWorking = new RadioButton();
@@ -38,8 +38,23 @@
             grpControls = new GroupBox();
             lblTimeType = new Label();
             lblStatus = new Label();
-            ((System.ComponentModel.ISupportInitialize)dgvEntryLog).BeginInit();
+            mnuMainMenu = new MenuStrip();
+            fileToolStripMenuItem = new ToolStripMenuItem();
+            mnuNewLog = new ToolStripMenuItem();
+            mnuOpenLog = new ToolStripMenuItem();
+            mnuSaveLogAs = new ToolStripMenuItem();
+            mnuSaveLog = new ToolStripMenuItem();
+            mnuExit = new ToolStripMenuItem();
+            dgvEntryLog = new DataGridView();
+            statusStrip1 = new StatusStrip();
+            staFilePath = new ToolStripStatusLabel();
+            staSpring = new ToolStripStatusLabel();
+            staTime = new ToolStripStatusLabel();
+            tmrDateAndTime = new System.Windows.Forms.Timer(components);
             grpControls.SuspendLayout();
+            mnuMainMenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvEntryLog).BeginInit();
+            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // btnClockIn
@@ -64,16 +79,6 @@
             btnClockOut.UseVisualStyleBackColor = true;
             btnClockOut.Click += btnClockOut_Click;
             // 
-            // dgvEntryLog
-            // 
-            dgvEntryLog.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvEntryLog.Location = new Point(36, 40);
-            dgvEntryLog.Margin = new Padding(5);
-            dgvEntryLog.Name = "dgvEntryLog";
-            dgvEntryLog.RowTemplate.Height = 25;
-            dgvEntryLog.Size = new Size(520, 696);
-            dgvEntryLog.TabIndex = 1;
-            // 
             // btnDeleteEntry
             // 
             btnDeleteEntry.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
@@ -89,7 +94,7 @@
             // 
             lblEntryLog.AutoSize = true;
             lblEntryLog.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblEntryLog.Location = new Point(36, 14);
+            lblEntryLog.Location = new Point(36, 39);
             lblEntryLog.Name = "lblEntryLog";
             lblEntryLog.Size = new Size(76, 21);
             lblEntryLog.TabIndex = 2;
@@ -158,22 +163,132 @@
             lblStatus.TextAlign = ContentAlignment.MiddleCenter;
             lblStatus.Visible = false;
             // 
+            // mnuMainMenu
+            // 
+            mnuMainMenu.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem });
+            mnuMainMenu.Location = new Point(0, 0);
+            mnuMainMenu.Name = "mnuMainMenu";
+            mnuMainMenu.Size = new Size(594, 24);
+            mnuMainMenu.TabIndex = 10;
+            mnuMainMenu.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { mnuNewLog, mnuOpenLog, mnuSaveLogAs, mnuSaveLog, mnuExit });
+            fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Text = "&File";
+            // 
+            // mnuNewLog
+            // 
+            mnuNewLog.Name = "mnuNewLog";
+            mnuNewLog.ShortcutKeys = Keys.Control | Keys.N;
+            mnuNewLog.Size = new Size(186, 22);
+            mnuNewLog.Text = "&New Log...";
+            mnuNewLog.Click += mnuNewLog_Click;
+            // 
+            // mnuOpenLog
+            // 
+            mnuOpenLog.Name = "mnuOpenLog";
+            mnuOpenLog.ShortcutKeys = Keys.Control | Keys.O;
+            mnuOpenLog.Size = new Size(186, 22);
+            mnuOpenLog.Text = "&Open Log...";
+            mnuOpenLog.Click += mnuOpenLog_Click;
+            // 
+            // mnuSaveLogAs
+            // 
+            mnuSaveLogAs.Name = "mnuSaveLogAs";
+            mnuSaveLogAs.ShortcutKeys = Keys.Control | Keys.Alt | Keys.S;
+            mnuSaveLogAs.Size = new Size(186, 22);
+            mnuSaveLogAs.Text = "Save &As...";
+            mnuSaveLogAs.Click += mnuSaveLogAs_Click;
+            // 
+            // mnuSaveLog
+            // 
+            mnuSaveLog.Name = "mnuSaveLog";
+            mnuSaveLog.ShortcutKeys = Keys.Control | Keys.S;
+            mnuSaveLog.Size = new Size(186, 22);
+            mnuSaveLog.Text = "Save";
+            mnuSaveLog.Click += mnuSaveLog_Click;
+            // 
+            // mnuExit
+            // 
+            mnuExit.Name = "mnuExit";
+            mnuExit.Size = new Size(186, 22);
+            mnuExit.Text = "E&xit";
+            mnuExit.Click += mnuExit_Click;
+            // 
+            // dgvEntryLog
+            // 
+            dgvEntryLog.AllowUserToAddRows = false;
+            dgvEntryLog.AllowUserToDeleteRows = false;
+            dgvEntryLog.AllowUserToResizeColumns = false;
+            dgvEntryLog.AllowUserToResizeRows = false;
+            dgvEntryLog.CausesValidation = false;
+            dgvEntryLog.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvEntryLog.EditMode = DataGridViewEditMode.EditOnF2;
+            dgvEntryLog.Location = new Point(36, 63);
+            dgvEntryLog.Name = "dgvEntryLog";
+            dgvEntryLog.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgvEntryLog.RowTemplate.Height = 25;
+            dgvEntryLog.Size = new Size(520, 675);
+            dgvEntryLog.TabIndex = 11;
+            // 
+            // statusStrip1
+            // 
+            statusStrip1.Items.AddRange(new ToolStripItem[] { staFilePath, staSpring, staTime });
+            statusStrip1.Location = new Point(0, 1143);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(594, 22);
+            statusStrip1.TabIndex = 12;
+            statusStrip1.Text = "statusStrip1";
+            // 
+            // staFilePath
+            // 
+            staFilePath.Name = "staFilePath";
+            staFilePath.Size = new Size(35, 17);
+            staFilePath.Text = "PATH";
+            // 
+            // staSpring
+            // 
+            staSpring.Name = "staSpring";
+            staSpring.Size = new Size(511, 17);
+            staSpring.Spring = true;
+            // 
+            // staTime
+            // 
+            staTime.Name = "staTime";
+            staTime.Size = new Size(33, 17);
+            staTime.Text = "TIME";
+            // 
+            // tmrDateAndTime
+            // 
+            tmrDateAndTime.Enabled = true;
+            tmrDateAndTime.Tick += tmrDateAndTime_Tick;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(594, 1130);
+            ClientSize = new Size(594, 1165);
+            Controls.Add(statusStrip1);
+            Controls.Add(dgvEntryLog);
             Controls.Add(lblStatus);
             Controls.Add(grpControls);
             Controls.Add(lblEntryLog);
-            Controls.Add(dgvEntryLog);
+            Controls.Add(mnuMainMenu);
+            MainMenuStrip = mnuMainMenu;
             Name = "MainForm";
             Text = "Time Clock";
             FormClosing += MainForm_FormClosing;
-            ((System.ComponentModel.ISupportInitialize)dgvEntryLog).EndInit();
             grpControls.ResumeLayout(false);
             grpControls.PerformLayout();
+            mnuMainMenu.ResumeLayout(false);
+            mnuMainMenu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvEntryLog).EndInit();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -182,7 +297,6 @@
 
         private Button btnClockIn;
         private Button btnClockOut;
-        private DataGridView dgvEntryLog;
         private Button btnDeleteEntry;
         private Label lblEntryLog;
         private RadioButton rdoWorking;
@@ -190,5 +304,18 @@
         private GroupBox grpControls;
         private Label lblTimeType;
         private Label lblStatus;
+        private MenuStrip mnuMainMenu;
+        private ToolStripMenuItem fileToolStripMenuItem;
+        private ToolStripMenuItem mnuNewLog;
+        private ToolStripMenuItem mnuOpenLog;
+        private ToolStripMenuItem mnuSaveLogAs;
+        private ToolStripMenuItem mnuSaveLog;
+        private ToolStripMenuItem mnuExit;
+        private DataGridView dgvEntryLog;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel staFilePath;
+        private ToolStripStatusLabel staSpring;
+        private ToolStripStatusLabel staTime;
+        private System.Windows.Forms.Timer tmrDateAndTime;
     }
 }
