@@ -60,7 +60,7 @@
             // btnClockIn
             // 
             btnClockIn.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnClockIn.Location = new Point(148, 104);
+            btnClockIn.Location = new Point(173, 104);
             btnClockIn.Name = "btnClockIn";
             btnClockIn.Size = new Size(340, 75);
             btnClockIn.TabIndex = 0;
@@ -71,7 +71,7 @@
             // btnClockOut
             // 
             btnClockOut.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            btnClockOut.Location = new Point(148, 200);
+            btnClockOut.Location = new Point(173, 200);
             btnClockOut.Name = "btnClockOut";
             btnClockOut.Size = new Size(340, 75);
             btnClockOut.TabIndex = 0;
@@ -94,7 +94,7 @@
             // 
             lblEntryLog.AutoSize = true;
             lblEntryLog.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            lblEntryLog.Location = new Point(36, 39);
+            lblEntryLog.Location = new Point(21, 39);
             lblEntryLog.Name = "lblEntryLog";
             lblEntryLog.Size = new Size(76, 21);
             lblEntryLog.TabIndex = 2;
@@ -105,7 +105,7 @@
             rdoWorking.AutoSize = true;
             rdoWorking.Checked = true;
             rdoWorking.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            rdoWorking.Location = new Point(148, 34);
+            rdoWorking.Location = new Point(173, 34);
             rdoWorking.Name = "rdoWorking";
             rdoWorking.Size = new Size(128, 25);
             rdoWorking.TabIndex = 5;
@@ -117,7 +117,7 @@
             // 
             rdoTraining.AutoSize = true;
             rdoTraining.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            rdoTraining.Location = new Point(358, 34);
+            rdoTraining.Location = new Point(383, 34);
             rdoTraining.Name = "rdoTraining";
             rdoTraining.Size = new Size(130, 25);
             rdoTraining.TabIndex = 5;
@@ -132,9 +132,9 @@
             grpControls.Controls.Add(btnClockIn);
             grpControls.Controls.Add(rdoTraining);
             grpControls.Controls.Add(rdoWorking);
-            grpControls.Location = new Point(36, 810);
+            grpControls.Location = new Point(21, 810);
             grpControls.Name = "grpControls";
-            grpControls.Size = new Size(520, 305);
+            grpControls.Size = new Size(550, 305);
             grpControls.TabIndex = 8;
             grpControls.TabStop = false;
             grpControls.Text = "Entry Controls";
@@ -155,9 +155,9 @@
             lblStatus.BorderStyle = BorderStyle.FixedSingle;
             lblStatus.Font = new Font("Century Gothic", 20.25F, FontStyle.Bold, GraphicsUnit.Point);
             lblStatus.ForeColor = Color.Lime;
-            lblStatus.Location = new Point(36, 741);
+            lblStatus.Location = new Point(21, 741);
             lblStatus.Name = "lblStatus";
-            lblStatus.Size = new Size(520, 66);
+            lblStatus.Size = new Size(550, 66);
             lblStatus.TabIndex = 9;
             lblStatus.Text = "Clocked In";
             lblStatus.TextAlign = ContentAlignment.MiddleCenter;
@@ -227,11 +227,11 @@
             dgvEntryLog.CausesValidation = false;
             dgvEntryLog.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvEntryLog.EditMode = DataGridViewEditMode.EditOnF2;
-            dgvEntryLog.Location = new Point(36, 63);
+            dgvEntryLog.Location = new Point(21, 63);
             dgvEntryLog.Name = "dgvEntryLog";
             dgvEntryLog.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvEntryLog.RowTemplate.Height = 25;
-            dgvEntryLog.Size = new Size(520, 675);
+            dgvEntryLog.Size = new Size(550, 675);
             dgvEntryLog.TabIndex = 11;
             // 
             // statusStrip1

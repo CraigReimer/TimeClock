@@ -82,7 +82,7 @@ namespace CMR.TimeClock.UI
             if (!StateManager.IsClockedIn) return; // not clocked in
 
             StateManager.ClockOut(entryLog);
-            
+
             RebindEntryLog();
 
             lblStatus.Visible = false;
