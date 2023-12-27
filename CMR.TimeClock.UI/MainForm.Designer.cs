@@ -159,7 +159,7 @@
             lblStatus.Name = "lblStatus";
             lblStatus.Size = new Size(550, 66);
             lblStatus.TabIndex = 9;
-            lblStatus.Text = "Clocked In";
+            lblStatus.Text = "Clocked In - [00:00]";
             lblStatus.TextAlign = ContentAlignment.MiddleCenter;
             lblStatus.Visible = false;
             // 

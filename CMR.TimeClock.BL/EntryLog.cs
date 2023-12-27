@@ -61,7 +61,7 @@ namespace CMR.TimeClock.BL
         {
             LogChanged = false; // reset the flag
             CurrentFilePath = String.Empty; // reset the file path
-            StateManager.Reset(); // reset the Clock state
+            StateManager.ResetClockState(); // reset the default Clock state
 
             base.Clear(); // Clear the list
         }
