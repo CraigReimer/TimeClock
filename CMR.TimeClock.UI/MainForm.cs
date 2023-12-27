@@ -125,7 +125,8 @@ namespace CMR.TimeClock.UI
         {
             if (ManageUnsavedChanges() == UnsavedChangesAction.CancelOperation) return; // user cancelled
 
-            entryLog = new EntryLog();
+            entryLog.Clear(); // clear the log contents
+
             RebindEntryLog();
             UpdateStatusStrip();
         }
@@ -140,9 +141,8 @@ namespace CMR.TimeClock.UI
             };
 
             if (dlgOpen.ShowDialog() == DialogResult.OK)
-            {
-                // clear the log contents
-                entryLog.Clear();
+            {                
+                entryLog.Clear(); // clear the log contents
 
                 try
                 {
