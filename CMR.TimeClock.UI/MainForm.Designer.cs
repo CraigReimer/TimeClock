@@ -214,6 +214,7 @@
             // mnuExit
             // 
             mnuExit.Name = "mnuExit";
+            mnuExit.ShortcutKeys = Keys.Alt | Keys.F4;
             mnuExit.Size = new Size(186, 22);
             mnuExit.Text = "E&xit";
             mnuExit.Click += mnuExit_Click;
@@ -233,6 +234,7 @@
             dgvEntryLog.RowTemplate.Height = 25;
             dgvEntryLog.Size = new Size(550, 675);
             dgvEntryLog.TabIndex = 11;
+            dgvEntryLog.CellValueChanged += dgvEntryLog_CellValueChanged;
             // 
             // statusStrip1
             // 
