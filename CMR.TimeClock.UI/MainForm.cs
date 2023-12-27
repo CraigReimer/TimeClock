@@ -209,7 +209,15 @@ namespace CMR.TimeClock.UI
 
         private void tmrDateAndTime_Tick(object sender, EventArgs e)
         {
+            // display date and time in status strip
             staTime.Text = DateTime.Now.ToString("h:mm:ss tt");
+
+            // display elapsed shift time if clocked in
+            if (StateManager.IsClockedIn)
+            {
+                lblStatus.Text = $"Clocked In - [{StateManager.CurrentShiftDuration}]";
+            }
+
         }
 
         private void UpdateStatusStrip()
@@ -247,8 +255,8 @@ namespace CMR.TimeClock.UI
         }
 
         private void dgvEntryLog_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {            
-            entryLog.LogChanged = true;             
+        {
+            entryLog.LogChanged = true;
         }
     }
 }

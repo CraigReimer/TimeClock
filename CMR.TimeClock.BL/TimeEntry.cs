@@ -50,9 +50,8 @@
                 }
                 
             }
-            set { }
         }
-        
+
         public bool IsLogged { get; set; }
 
         public TimeType EntryType { get; set; }

@@ -1,4 +1,6 @@
 ﻿
+using System.Threading;
+
 namespace CMR.TimeClock.BL
 {
     public static class StateManager
@@ -12,6 +14,7 @@ namespace CMR.TimeClock.BL
 
         // fields
         private static ClockState currentState;
+        private static DateTime lastPunchIn;
 
 
         // properties
@@ -23,8 +26,19 @@ namespace CMR.TimeClock.BL
             }
         }
 
+        public static string CurrentShiftDuration
+        {
+            get
+            {
+                if (IsClockedIn)
+                {
+                    TimeSpan elapsedTime = DateTime.Now - lastPunchIn;
+                    return $"{(int)elapsedTime.TotalHours:00}:{elapsedTime.Minutes:00}";
+                }
 
-
+                return String.Empty;
+            }    
+    }
 
 
         // static constructor
@@ -37,43 +51,50 @@ namespace CMR.TimeClock.BL
         // methods
         public static void ClockIn(EntryLog entryLog, bool isTraining = false)
         {
-            TimeEntry timeEntry;
+            DateTime punchEvent = DateTime.Now; // get current time
+            punchEvent = punchEvent.AddSeconds(-punchEvent.Second); // remove seconds
 
-            if (isTraining)
+            TimeEntry timeEntry; // create time entry
+
+            if (isTraining) // check if training
             {
-                timeEntry = new TimeEntry(DateTime.Now, TimeEntry.TimeType.Training);
+                timeEntry = new TimeEntry(punchEvent, TimeEntry.TimeType.Training); // create training time entry
             }
             else
             {
-                timeEntry = new TimeEntry(DateTime.Now);
+                timeEntry = new TimeEntry(punchEvent); // create time entry
             }
 
-            entryLog.Add(timeEntry); // add time entry
+            entryLog.Add(timeEntry); // add time entry to log
 
-            currentState = ClockState.ClockedIn; // change punch state
+            currentState = ClockState.ClockedIn; // change the punch state
 
             entryLog.LogChanged = true;  // flag the log as changed
+
+            lastPunchIn = punchEvent; // set the last punch in
         }
 
         public static void ClockOut(EntryLog entryLog)
         {
+            DateTime punchEvent = DateTime.Now; // get current time
+            punchEvent = punchEvent.AddSeconds(-punchEvent.Second); // remove seconds
+
             // get the last entry
             TimeEntry? lastEntry = entryLog.LastOrDefault(entry => entry.TimeOut == DateTime.MinValue);
 
             if (lastEntry != null)
             {
-                lastEntry.TimeOut = DateTime.Now;
-
+                lastEntry.TimeOut = punchEvent; // set the time out
             }
 
-            currentState = ClockState.ClockedOut;
+            currentState = ClockState.ClockedOut; // change the punch state
 
             entryLog.LogChanged = true;  // flag the change to be saved
         }
 
-        public static void Reset()
+        public static void ResetClockState()
         {
-            currentState = ClockState.ClockedOut;
+            currentState = ClockState.ClockedOut; // change the punch state
         }
 
     }
