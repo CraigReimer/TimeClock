@@ -15,6 +15,15 @@ namespace CMR.TimeClock.UI
 {
     public partial class MainForm : Form
     {
+        // enums
+        public enum UnsavedChangesAction
+        {
+            SaveChanges,
+            DiscardChanges,
+            CancelOperation,
+            NoChanges
+        }
+
         // fields
         public EntryLog entryLog = new();
 
@@ -46,7 +55,7 @@ namespace CMR.TimeClock.UI
                 dgvEntryLog.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
             }
 
-
+            // set column headers
             dgvEntryLog.Columns["EntryID"].HeaderText = "ID";
             dgvEntryLog.Columns["TimeIn"].HeaderText = "Time In";
             dgvEntryLog.Columns["TimeOut"].HeaderText = "Time Out";
@@ -109,32 +118,44 @@ namespace CMR.TimeClock.UI
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            mnuExit_Click(sender, e);
+            ManageUnsavedChanges();
         }
 
         private void mnuNewLog_Click(object sender, EventArgs e)
         {
-            if (entryLog != null)
-            {
-                // check for unsaved changes
-                if (entryLog.LogChanged)
-                {
-                    DialogResult result = MessageBox.Show("This log has unsaved changes.\nDo you want to save the changes?", "Save", MessageBoxButtons.YesNoCancel);
-
-                    if (result == DialogResult.Yes)
-                    {
-                        mnuSaveLog_Click(sender, e);  // call to SAVE
-                    }
-                    else if (result == DialogResult.Cancel)
-                    {
-                        return;  // do nothing
-                    }
-                }
-            }
+            if (ManageUnsavedChanges() == UnsavedChangesAction.CancelOperation) return; // user cancelled
 
             entryLog = new EntryLog();
             RebindEntryLog();
             UpdateStatusStrip();
+        }
+
+        private void mnuOpenLog_Click(object sender, EventArgs e)
+        {
+            if (ManageUnsavedChanges() == UnsavedChangesAction.CancelOperation) return; // user cancelled
+
+            OpenFileDialog dlgOpen = new OpenFileDialog
+            {
+                Filter = "XML File|*.xml"
+            };
+
+            if (dlgOpen.ShowDialog() == DialogResult.OK)
+            {
+                // clear the log contents
+                entryLog.Clear();
+
+                try
+                {
+                    entryLog.LoadFromXML(dlgOpen.FileName); // load the new log
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+                RebindEntryLog(); // rebind the log
+                UpdateStatusStrip();
+            }
         }
 
         private void mnuSaveLog_Click(object sender, EventArgs e)
@@ -145,13 +166,6 @@ namespace CMR.TimeClock.UI
                 // File has no path, send to SaveAs
                 mnuSaveLogAs_Click(sender, e); return;
             }
-
-            // check for unsaved changes
-            if (!entryLog.LogChanged)
-            {
-                MessageBox.Show("No changes to save."); return;
-            }
-
 
             try
             {
@@ -187,60 +201,11 @@ namespace CMR.TimeClock.UI
 
         private void mnuExit_Click(object sender, EventArgs e)
         {
-            if (entryLog.LogChanged)
-            {
-                DialogResult result = MessageBox.Show("This log has unsaved changes. Do you want to save the changes?", "Save", MessageBoxButtons.YesNoCancel);
+            if (ManageUnsavedChanges() == UnsavedChangesAction.CancelOperation) return; // user cancelled
 
-                if (result == DialogResult.Yes)
-                {
-                    mnuSaveLog_Click(sender, e);  // call to SAVE
-                }
-                else if (result == DialogResult.Cancel) return;
-            }
-
-            Application.Exit();
+            this.Close();
         }
 
-        private void mnuOpenLog_Click(object sender, EventArgs e)
-        {
-            // check for unsaved changes
-            if (entryLog.LogChanged)
-            {
-                DialogResult result = MessageBox.Show("This log has unsaved changes. Do you want to save the changes?", "Save", MessageBoxButtons.YesNoCancel);
-
-                if (result == DialogResult.Yes)
-                {
-                    mnuSaveLog_Click(sender, e);  // call to SAVE
-                }
-                else if (result == DialogResult.Cancel)
-                {
-                    return;  // do nothing
-                }
-            }
-
-            OpenFileDialog dlgOpen = new OpenFileDialog
-            {
-                Filter = "XML File|*.xml"
-            };
-
-            if (dlgOpen.ShowDialog() == DialogResult.OK)
-            {
-                // clear the log contents
-                entryLog.Clear();
-
-                try
-                {
-                    entryLog.LoadFromXML(dlgOpen.FileName); // load the new log
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-                RebindEntryLog(); // rebind the log
-                UpdateStatusStrip();
-            }
-        }
 
         private void tmrDateAndTime_Tick(object sender, EventArgs e)
         {
@@ -249,7 +214,41 @@ namespace CMR.TimeClock.UI
 
         private void UpdateStatusStrip()
         {
-            staFilePath.Text = "File: " + (entryLog.CurrentFilePath ?? "Untitled");
+            // display file path or "--Untitled--" if no path is set
+            staFilePath.Text = "File: " + (string.IsNullOrEmpty(entryLog.CurrentFilePath) ? "--Untitled--" : entryLog.CurrentFilePath);
+        }
+
+        private UnsavedChangesAction ManageUnsavedChanges()
+        {
+            if (entryLog.LogChanged)
+            {
+                DialogResult result = MessageBox.Show(this, "This log has unsaved changes.\nDo you want to save the changes?", "Save", MessageBoxButtons.YesNoCancel);
+
+                if (result == DialogResult.Yes)
+                {
+                    // user elects to save
+                    mnuSaveLog_Click(this, new EventArgs());
+                    return UnsavedChangesAction.SaveChanges;
+                }
+                else if (result == DialogResult.Cancel)
+                {
+                    // user elects to cancel action, changes persist
+                    return UnsavedChangesAction.CancelOperation;
+                }
+                else
+                {
+                    // user elects to disregard changes
+                    return UnsavedChangesAction.DiscardChanges;
+                }
+            }
+
+            // no unsaved changes found, do nothing
+            return UnsavedChangesAction.NoChanges;
+        }
+
+        private void dgvEntryLog_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {            
+            entryLog.LogChanged = true;             
         }
     }
 }

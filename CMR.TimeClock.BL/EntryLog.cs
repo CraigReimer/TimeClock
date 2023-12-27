@@ -21,7 +21,7 @@ namespace CMR.TimeClock.BL
         // constructors
         public EntryLog()
         {
-            
+            CurrentFilePath = String.Empty; // Initialize the file path, empty by default
         }
 
 
