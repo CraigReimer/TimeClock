@@ -1,12 +1,25 @@
-﻿namespace CMR.TimeClock.BL
+﻿//-----------------------------------------------------------------------
+// <copyright file="TimeEntry.cs" company="Craig Reimer">
+//     Copyright (c) Craig Reimer. All rights reserved.
+// </copyright>
+// <title>TimeClock</title>
+// <summary>A simple time clock for logging in and out times.</summary>
+// <author>Craig Reimer</author>
+// <firstPublish>12-7-2023</firstPublish>
+// <lastUpdate>01-02-2024</lastUpdate>
+//-----------------------------------------------------------------------
+
+namespace CMR.TimeClock.BL
 {
     public class TimeEntry
     {
-        // define entry types
-        public enum TimeType 
+        /// <summary>
+        /// Types of time entries.
+        /// </summary>
+        public enum TimeType
         {
             Working,
-            Training
+            Training,
         }
 
         // fields
@@ -19,36 +32,35 @@
 
         public DateTime TimeIn
         {
-            get => timeIn;
+            get => this.timeIn;
             set
             {
-                timeIn = value.AddSeconds(-value.Second);
-            }
-        }
-        
-        public DateTime TimeOut
-        {
-            get => timeOut;
-            set
-            {
-                timeOut = value.AddSeconds(-value.Second);
+                this.timeIn = value.AddSeconds(-value.Second);
             }
         }
 
-        public String ElapsedTime
+        public DateTime TimeOut
+        {
+            get => this.timeOut;
+            set
+            {
+                this.timeOut = value.AddSeconds(-value.Second);
+            }
+        }
+
+        public string ElapsedTime
         {
             get
             {
-                if (TimeOut == DateTime.MinValue || TimeOut < TimeIn) // TimeOut not set or invalid
+                if (this.TimeOut == DateTime.MinValue || this.TimeOut < this.TimeIn) // TimeOut not set or invalid
                 {
-                    return String.Empty; 
+                    return string.Empty;
                 }
                 else
                 {
-                    TimeSpan elapsedTime = TimeOut - TimeIn;
+                    TimeSpan elapsedTime = this.TimeOut - this.TimeIn;
                     return $"{(int)elapsedTime.TotalHours:00}:{elapsedTime.Minutes:00}";
                 }
-                
             }
         }
 
@@ -56,26 +68,26 @@
 
         public TimeType EntryType { get; set; }
 
-
-
         // constructors
-        public TimeEntry() { }
+        public TimeEntry()
+        {
+        }
 
         public TimeEntry(DateTime timeIn)
         {
-            TimeIn = timeIn;
+            this.TimeIn = timeIn;
         }
 
         public TimeEntry (DateTime timeIn, DateTime timeOut)
         {
-            TimeIn = timeIn;
-            TimeOut = timeOut;
+            this.TimeIn = timeIn;
+            this.TimeOut = timeOut;
         }
 
         public TimeEntry(DateTime timeIn, TimeType entryType)
         {
-            TimeIn = timeIn;
-            EntryType = entryType;
+            this.TimeIn = timeIn;
+            this.EntryType = entryType;
         }
 
     }

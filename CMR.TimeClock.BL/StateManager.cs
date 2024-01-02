@@ -1,11 +1,23 @@
-﻿
-using System.Threading;
+﻿//-----------------------------------------------------------------------
+// <copyright file="StateManager.cs" company="Craig Reimer">
+//     Copyright (c) Craig Reimer. All rights reserved.
+// </copyright>
+// <title>TimeClock</title>
+// <summary>A simple time clock for logging in and out times.</summary>
+// <author>Craig Reimer</author>
+// <firstPublish>12-7-2023</firstPublish>
+// <lastUpdate>01-02-2024</lastUpdate>
+//-----------------------------------------------------------------------
 
 namespace CMR.TimeClock.BL
 {
+    using System.Threading;
+
     public static class StateManager
     {
-        // define clock states
+        /// <summary>
+        /// Types of clock state.
+        /// </summary>
         public enum ClockState
         {
             ClockedIn,
@@ -15,7 +27,6 @@ namespace CMR.TimeClock.BL
         // fields
         private static ClockState currentState;
         private static DateTime lastPunchIn;
-
 
         // properties
         public static bool IsClockedIn
@@ -36,17 +47,15 @@ namespace CMR.TimeClock.BL
                     return $"{(int)elapsedTime.TotalHours:00}:{elapsedTime.Minutes:00}";
                 }
 
-                return String.Empty;
-            }    
+                return string.Empty;
+            }
     }
-
 
         // static constructor
         static StateManager()
         {
             currentState = ClockState.ClockedOut; // Initial state: ClockedOut
         }
-
 
         // methods
         public static void ClockIn(EntryLog entryLog, bool isTraining = false)
@@ -96,6 +105,5 @@ namespace CMR.TimeClock.BL
         {
             currentState = ClockState.ClockedOut; // change the punch state
         }
-
     }
 }

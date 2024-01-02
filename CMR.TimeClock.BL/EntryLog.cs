@@ -1,46 +1,55 @@
-﻿using CMR.TimeClock.PL;
+﻿//-----------------------------------------------------------------------
+// <copyright file="EntryLog.cs" company="Craig Reimer">
+//     Copyright (c) Craig Reimer. All rights reserved.
+// </copyright>
+// <title>TimeClock</title>
+// <summary>A simple time clock for logging in and out times.</summary>
+// <author>Craig Reimer</author>
+// <firstPublish>12-7-2023</firstPublish>
+// <lastUpdate>01-02-2024</lastUpdate>
+//-----------------------------------------------------------------------
 
 namespace CMR.TimeClock.BL
 {
+    using CMR.TimeClock.PL;
+
     public class EntryLog : List<TimeEntry>
     {
         // fields
-        private string _currentFilePath = String.Empty;
+        private string currentFilePath = string.Empty;
 
         // properties
         public bool LogChanged { get; set; } = false; // false by default
 
         public string CurrentFilePath
         {
-            get => _currentFilePath;
+            get => this.currentFilePath;
             private set
             {
-                _currentFilePath = value;
+                this.currentFilePath = value;
                 DataAccess.XMLFilePath = value;
             }
         }
 
-
         // constructors
         public EntryLog()
         {
-            CurrentFilePath = String.Empty; // Initialize the file path, empty by default
+            this.CurrentFilePath = string.Empty; // Initialize the file path, empty by default
         }
 
-
         // methods
-        public void LoadTestData()  // No longer used, but here for testing if needed
+        public void LoadTestData() // No longer used, but here for testing if needed
         {
             TimeEntry timeEntry;
 
             timeEntry = new TimeEntry(DateTime.Parse("2020-10-02 10:00:00"), DateTime.Parse("2020-10-01 12:00:00"));
-            Add(timeEntry);
+            this.Add(timeEntry);
 
             timeEntry = new TimeEntry(DateTime.Parse("2020-10-02 12:00:00"), DateTime.Parse("2020-10-02 13:00:00"));
-            Add(timeEntry);
+            this.Add(timeEntry);
 
             timeEntry = new TimeEntry(DateTime.Parse("2020-10-03 11:00:00"), DateTime.Parse("2020-10-03 14:00:00"));
-            Add(timeEntry);
+            this.Add(timeEntry);
         }
 
         public new void Add(TimeEntry entry)
@@ -48,22 +57,22 @@ namespace CMR.TimeClock.BL
             // TODO: remove if using DB
             entry.EntryID = this.Count + 1; // Assign a semi-unique ID based on list size 
 
-            LogChanged = true; // flag the change to be saved
+            this.LogChanged = true; // flag the change to be saved
 
             base.Add(entry); // Add the entry to the list
         }
 
         public new void Remove(TimeEntry entry)
         {
-            LogChanged = true; // flag the change to be saved
-            
+            this.LogChanged = true; // flag the change to be saved
+
             base.Remove(entry); // Remove the entry from the list
         }
 
         public new void Clear()
         {
-            LogChanged = false; // reset the flag
-            CurrentFilePath = String.Empty; // reset the file path
+            this.LogChanged = false; // reset the flag
+            this.CurrentFilePath = string.Empty; // reset the file path
             StateManager.ResetClockState(); // reset the default Clock state
 
             base.Clear(); // Clear the list
@@ -71,7 +80,7 @@ namespace CMR.TimeClock.BL
 
         public bool HasValidPath()
         {
-            if (!String.IsNullOrEmpty(CurrentFilePath) && Path.HasExtension(CurrentFilePath))
+            if (!string.IsNullOrEmpty(this.CurrentFilePath) && Path.HasExtension(this.CurrentFilePath))
             {
                 return true;
             }
@@ -83,21 +92,21 @@ namespace CMR.TimeClock.BL
 
         public void SaveAsXML(string path)
         {
-            CurrentFilePath = path;
-            
-            SaveToXML();
+            this.CurrentFilePath = path;
+
+            this.SaveToXML();
         }
 
         public void SaveToXML()
         {
-            LogChanged = false; // reset the flag
+            this.LogChanged = false; // reset the flag
 
             DataAccess.SaveToXML(typeof(EntryLog), this);
         }
 
         public void LoadFromXML(string path)
         {
-            CurrentFilePath = path; // Set the file path
+            this.CurrentFilePath = path; // Set the file path
 
             try
             {
@@ -115,14 +124,13 @@ namespace CMR.TimeClock.BL
                     throw new Exception("Error loading from XML: incorrect object type");
                 }
 
-                LogChanged = false; // reset the flag
+                this.LogChanged = false; // reset the flag
             }
             catch (Exception ex)
             {
-                LogChanged = true; // set flag if exception occurs
+                this.LogChanged = true; // set flag if exception occurs
                 throw new Exception("Error loading from XML: " + ex.Message);
             }
         }
-
     }
 }
