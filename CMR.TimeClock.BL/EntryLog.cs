@@ -99,26 +99,19 @@ namespace CMR.TimeClock.BL
         {
             CurrentFilePath = path; // Set the file path
 
-            System.Diagnostics.Debug.WriteLine($"(BL) Path set. CurrentFilePath: {DataAccess.XMLFilePath}");
-
             try
             {
                 object obj = DataAccess.LoadFromXML(typeof(EntryLog));
 
                 if (obj is EntryLog loadedEntryLog)
                 {
-                    System.Diagnostics.Debug.WriteLine($"(BL) Retrieved file is EntryLog. CurrentFilePath: {DataAccess.XMLFilePath}");
-
                     foreach (TimeEntry entry in loadedEntryLog) // Add the retrieved entries to the current log
                     {
                         this.Add(entry);
                     }
-
-                    System.Diagnostics.Debug.WriteLine($"(BL) Entries loaded. CurrentFilePath: {DataAccess.XMLFilePath}");
                 }
                 else
                 {
-
                     throw new Exception("Error loading from XML: incorrect object type");
                 }
 
