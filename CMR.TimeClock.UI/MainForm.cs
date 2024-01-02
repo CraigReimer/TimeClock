@@ -16,20 +16,10 @@ namespace CMR.TimeClock.UI
 
     public partial class MainForm : Form
     {
-        /// <summary>
-        /// Types of user choice regarding unsaved changes.
-        /// </summary>
-        public enum UnsavedChangesAction
-        {
-            SaveChanges,
-            DiscardChanges,
-            CancelOperation,
-            NoChanges,
-        }
-
         // fields
-        public EntryLog entryLog = new ();
+        private EntryLog entryLog = new ();
 
+        // constructors
         public MainForm()
         {
             this.InitializeComponent();
@@ -40,6 +30,19 @@ namespace CMR.TimeClock.UI
             this.tmrDateAndTime_Tick(this, EventArgs.Empty);
 
             this.UpdateStatusStrip();
+        }
+
+        // enums
+
+        /// <summary>
+        /// Types of user choice regarding unsaved changes.
+        /// </summary>
+        public enum UnsavedChangesAction
+        {
+            SaveChanges,
+            DiscardChanges,
+            CancelOperation,
+            NoChanges,
         }
 
         // methods

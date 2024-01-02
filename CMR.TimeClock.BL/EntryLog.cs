@@ -18,6 +18,12 @@ namespace CMR.TimeClock.BL
         // fields
         private string currentFilePath = string.Empty;
 
+        // constructors
+        public EntryLog()
+        {
+            this.CurrentFilePath = string.Empty; // Initialize the file path, empty by default
+        }
+
         // properties
         public bool LogChanged { get; set; } = false; // false by default
 
@@ -29,12 +35,6 @@ namespace CMR.TimeClock.BL
                 this.currentFilePath = value;
                 DataAccess.XMLFilePath = value;
             }
-        }
-
-        // constructors
-        public EntryLog()
-        {
-            this.CurrentFilePath = string.Empty; // Initialize the file path, empty by default
         }
 
         // methods
