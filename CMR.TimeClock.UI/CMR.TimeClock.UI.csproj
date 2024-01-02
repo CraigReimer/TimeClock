@@ -6,6 +6,10 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Copyright>Craig Reimer</Copyright>
+    <Company>$(Craig Reimer)</Company>
+    <Product>$(TimeClock)</Product>
+    <StartupObject>CMR.TimeClock.UI.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +22,10 @@
   <ItemGroup>
     <ProjectReference Include="..\CMR.TimeClock.BL\CMR.TimeClock.BL.csproj" />
     <ProjectReference Include="..\CMR.TimeClock.PL\CMR.TimeClock.PL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

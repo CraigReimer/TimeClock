@@ -46,7 +46,7 @@ namespace CMR.TimeClock.UI
         private void RebindEntryLog()
         {
             this.dgvEntryLog.DataSource = null; // unhook the list
-            this.dgvEntryLog.DataSource = entryLog; // rebind the list
+            this.dgvEntryLog.DataSource = this.entryLog; // rebind the list
 
             // format the grid
             for (int i = 0; i < this.dgvEntryLog.ColumnCount; i++)
@@ -68,7 +68,10 @@ namespace CMR.TimeClock.UI
 
         private void btnClockIn_Click(object sender, EventArgs e)
         {
-            if (StateManager.IsClockedIn) { return; } // already clocked in
+            if (StateManager.IsClockedIn)
+            {
+                return; // already clocked in
+            }
 
             if (this.rdoTraining.Checked)
             {
@@ -102,7 +105,10 @@ namespace CMR.TimeClock.UI
         {
             DialogResult dialogResult = MessageBox.Show("Are you sure you want to delete this entry?", "Confirm Delete", MessageBoxButtons.OKCancel);
 
-            if (dialogResult != DialogResult.OK) { return; }
+            if (dialogResult != DialogResult.OK)
+            {
+                return;
+            }
 
             if (this.dgvEntryLog.SelectedRows.Count > 0)
             {
@@ -210,11 +216,13 @@ namespace CMR.TimeClock.UI
 
         private void mnuExit_Click(object sender, EventArgs e)
         {
-            if (this.ManageUnsavedChanges() == UnsavedChangesAction.CancelOperation) { return; } // user cancelled
+            if (this.ManageUnsavedChanges() == UnsavedChangesAction.CancelOperation)
+            {
+                return; // user cancelled
+            }
 
             this.Close();
         }
-
 
         private void tmrDateAndTime_Tick(object sender, EventArgs e)
         {
