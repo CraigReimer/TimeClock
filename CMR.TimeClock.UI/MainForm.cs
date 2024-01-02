@@ -154,16 +154,17 @@ namespace CMR.TimeClock.UI
                 }
 
                 RebindEntryLog(); // rebind the log
+
                 UpdateStatusStrip();
             }
         }
 
         private void mnuSaveLog_Click(object sender, EventArgs e)
         {
-            // check if file has path
-            if (!entryLog.HasPath())
+            // check if file has valid path
+            if (!entryLog.HasValidPath())
             {
-                // File has no path, send to SaveAs
+                // File has no valid path, send to SaveAs
                 mnuSaveLogAs_Click(sender, e); return;
             }
 
@@ -215,7 +216,7 @@ namespace CMR.TimeClock.UI
         private void UpdateStatusStrip()
         {
             // display file path or "--Untitled--" if no path is set
-            staFilePath.Text = "File: " + (string.IsNullOrEmpty(entryLog.CurrentFilePath) ? "--Untitled--" : entryLog.CurrentFilePath);
+            staFilePath.Text = "File: " + (entryLog.HasValidPath() ? entryLog.CurrentFilePath : "--Untitled--");
         }
 
         private UnsavedChangesAction ManageUnsavedChanges()

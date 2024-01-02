@@ -4,15 +4,18 @@ namespace CMR.TimeClock.BL
 {
     public class EntryLog : List<TimeEntry>
     {
-        
+        // fields
+        private string _currentFilePath = String.Empty;
+
         // properties
         public bool LogChanged { get; set; } = false; // false by default
 
         public string CurrentFilePath
         {
-            get => DataAccess.XMLFilePath;
-            set
+            get => _currentFilePath;
+            private set
             {
+                _currentFilePath = value;
                 DataAccess.XMLFilePath = value;
             }
         }
@@ -30,7 +33,7 @@ namespace CMR.TimeClock.BL
         {
             TimeEntry timeEntry;
 
-            timeEntry = new TimeEntry(new DateTime(2020, 10, 01, 10, 0, 0), DateTime.Parse("2020-10-01 12:00:00"));
+            timeEntry = new TimeEntry(DateTime.Parse("2020-10-02 10:00:00"), DateTime.Parse("2020-10-01 12:00:00"));
             Add(timeEntry);
 
             timeEntry = new TimeEntry(DateTime.Parse("2020-10-02 12:00:00"), DateTime.Parse("2020-10-02 13:00:00"));
@@ -66,19 +69,16 @@ namespace CMR.TimeClock.BL
             base.Clear(); // Clear the list
         }
 
-        public bool HasPath()
+        public bool HasValidPath()
         {
-            if (String.IsNullOrEmpty(CurrentFilePath))
-            {
-                return false;
-            }
-
-            if (Path.HasExtension(CurrentFilePath))
+            if (!String.IsNullOrEmpty(CurrentFilePath) && Path.HasExtension(CurrentFilePath))
             {
                 return true;
             }
-
-            return false;
+            else
+            {
+                return false;
+            }
         }
 
         public void SaveAsXML(string path)
@@ -97,7 +97,9 @@ namespace CMR.TimeClock.BL
 
         public void LoadFromXML(string path)
         {
-            CurrentFilePath = path;
+            CurrentFilePath = path; // Set the file path
+
+            System.Diagnostics.Debug.WriteLine($"(BL) Path set. CurrentFilePath: {DataAccess.XMLFilePath}");
 
             try
             {
@@ -105,10 +107,14 @@ namespace CMR.TimeClock.BL
 
                 if (obj is EntryLog loadedEntryLog)
                 {
-                    foreach (TimeEntry entry in loadedEntryLog) // Add the loaded entries to the current log
+                    System.Diagnostics.Debug.WriteLine($"(BL) Retrieved file is EntryLog. CurrentFilePath: {DataAccess.XMLFilePath}");
+
+                    foreach (TimeEntry entry in loadedEntryLog) // Add the retrieved entries to the current log
                     {
                         this.Add(entry);
                     }
+
+                    System.Diagnostics.Debug.WriteLine($"(BL) Entries loaded. CurrentFilePath: {DataAccess.XMLFilePath}");
                 }
                 else
                 {
@@ -124,5 +130,6 @@ namespace CMR.TimeClock.BL
                 throw new Exception("Error loading from XML: " + ex.Message);
             }
         }
+
     }
 }

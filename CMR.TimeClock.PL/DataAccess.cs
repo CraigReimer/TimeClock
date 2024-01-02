@@ -42,6 +42,7 @@ namespace CMR.TimeClock.PL
             XmlSerializer serializer = new(type);
             object obj = serializer.Deserialize(reader)!;
             reader.Close();
+
             return obj;
         }
 
