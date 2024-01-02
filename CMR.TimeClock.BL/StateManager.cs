@@ -13,6 +13,9 @@ namespace CMR.TimeClock.BL
 {
     using System.Threading;
 
+    /// <summary>
+    /// Clock State Manager. Responsible for managing the clock state, triggering punch events, and returning shift time.
+    /// </summary>
     public static class StateManager
     {
         // fields
@@ -85,15 +88,15 @@ namespace CMR.TimeClock.BL
             DateTime punchEvent = DateTime.Now; // get current time
             punchEvent = punchEvent.AddSeconds(-punchEvent.Second); // remove seconds
 
-            TimeEntry timeEntry; // create time entry
+            TimeEntry timeEntry; // create time entry variable
 
             if (isTraining) // check if training
             {
-                timeEntry = new TimeEntry(punchEvent, TimeEntry.TimeType.Training); // create training time entry
+                timeEntry = new TimeEntry(punchEvent, TimeEntry.TimeType.Training); // initialize a new 'training' time entry
             }
             else
             {
-                timeEntry = new TimeEntry(punchEvent); // create time entry
+                timeEntry = new TimeEntry(punchEvent); // initialize a new 'working' time entry
             }
 
             entryLog.Add(timeEntry); // add time entry to log
@@ -102,7 +105,7 @@ namespace CMR.TimeClock.BL
 
             entryLog.LogChanged = true;  // flag the log as changed
 
-            lastPunchIn = punchEvent; // set the last punch in
+            lastPunchIn = punchEvent; // set the last punch in for shift duration calc
         }
 
         /// <summary>
