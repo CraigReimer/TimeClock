@@ -13,31 +13,49 @@ namespace CMR.TimeClock.BL
 {
     using CMR.TimeClock.PL;
 
+    /// <summary>
+    /// Entry Log. A list of time entries.
+    /// </summary>
     public class EntryLog : List<TimeEntry>
     {
         // fields
         private string currentFilePath = string.Empty;
 
-        // properties
-        public bool LogChanged { get; set; } = false; // false by default
-
-        public string CurrentFilePath
-        {
-            get => this.currentFilePath;
-            private set
-            {
-                this.currentFilePath = value;
-                DataAccess.XMLFilePath = value;
-            }
-        }
-
         // constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntryLog"/> class.
+        /// </summary>
         public EntryLog()
         {
             this.CurrentFilePath = string.Empty; // Initialize the file path, empty by default
         }
 
+        // properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the log has been changed and needs to be saved.
+        /// </summary>
+        public bool LogChanged { get; set; } = false; // false by default
+
+        /// <summary>
+        /// Gets the current file path.
+        /// </summary>
+        public string CurrentFilePath
+        {
+            get => this.currentFilePath;
+            private set
+            {
+                this.currentFilePath = value; // Set the local file path
+                DataAccess.XMLFilePath = value; // Set the XML file path
+            }
+        }
+
         // methods
+
+        /// <summary>
+        /// A method to load dummy data for testing or development purposes.
+        /// </summary>
         public void LoadTestData() // No longer used, but here for testing if needed
         {
             TimeEntry timeEntry;
@@ -52,16 +70,24 @@ namespace CMR.TimeClock.BL
             this.Add(timeEntry);
         }
 
+        /// <summary>
+        /// Adds a time entry to the list.
+        /// </summary>
+        /// <param name="entry">The entry to add to the list.</param>
         public new void Add(TimeEntry entry)
         {
             // TODO: remove if using DB
-            entry.EntryID = this.Count + 1; // Assign a semi-unique ID based on list size 
+            entry.EntryID = this.Count + 1; // Assign a semi-unique ID based on current list size
 
             this.LogChanged = true; // flag the change to be saved
 
             base.Add(entry); // Add the entry to the list
         }
 
+        /// <summary>
+        /// Removes a time entry from the list.
+        /// </summary>
+        /// <param name="entry">The entry to be removed.</param>
         public new void Remove(TimeEntry entry)
         {
             this.LogChanged = true; // flag the change to be saved
@@ -69,6 +95,9 @@ namespace CMR.TimeClock.BL
             base.Remove(entry); // Remove the entry from the list
         }
 
+        /// <summary>
+        /// Empty the current list.
+        /// </summary>
         public new void Clear()
         {
             this.LogChanged = false; // reset the flag
@@ -78,6 +107,10 @@ namespace CMR.TimeClock.BL
             base.Clear(); // Clear the list
         }
 
+        /// <summary>
+        /// Checks if the current file path is set and valid.
+        /// </summary>
+        /// <returns>True if file path is valid.</returns>
         public bool HasValidPath()
         {
             if (!string.IsNullOrEmpty(this.CurrentFilePath) && Path.HasExtension(this.CurrentFilePath))
@@ -90,6 +123,10 @@ namespace CMR.TimeClock.BL
             }
         }
 
+        /// <summary>
+        /// Sets the file path and redirects to SaveToXML() to save the log.
+        /// </summary>
+        /// <param name="path">The path to which the log should be saved.</param>
         public void SaveAsXML(string path)
         {
             this.CurrentFilePath = path;
@@ -97,6 +134,9 @@ namespace CMR.TimeClock.BL
             this.SaveToXML();
         }
 
+        /// <summary>
+        /// Saves the log to the current file path.
+        /// </summary>
         public void SaveToXML()
         {
             this.LogChanged = false; // reset the flag
@@ -104,6 +144,11 @@ namespace CMR.TimeClock.BL
             DataAccess.SaveToXML(typeof(EntryLog), this);
         }
 
+        /// <summary>
+        /// Loads the log from the current file path.
+        /// </summary>
+        /// <param name="path">The path from which the log should be loaded.</param>
+        /// <exception cref="Exception">XML Loading error.</exception>
         public void LoadFromXML(string path)
         {
             this.CurrentFilePath = path; // Set the file path

@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMR.TimeClock.UI", "CMR.Tim
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMR.TimeClock.BL", "CMR.TimeClock.BL\CMR.TimeClock.BL.csproj", "{40DD765D-5416-471C-9568-D6E5A0DD7D3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMR.TimeClock.PL", "CMR.TimeClock.PL\CMR.TimeClock.PL.csproj", "{BA3C4E28-EE18-4B0B-95C5-12850A266DE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMR.TimeClock.PL", "CMR.TimeClock.PL\CMR.TimeClock.PL.csproj", "{BA3C4E28-EE18-4B0B-95C5-12850A266DE7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B70B6979-19AD-4946-B78D-F5BD7D883A6E}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
