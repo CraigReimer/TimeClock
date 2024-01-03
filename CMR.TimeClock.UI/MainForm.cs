@@ -71,7 +71,7 @@ namespace CMR.TimeClock.UI
         // methods
 
         /// <summary>
-        /// Rebinds the data source of the <see cref="dgvEntryLog"/>.
+        /// Rebinds the data source of the <see cref="dgvEntryLog"/>. Formats the column headers.
         /// </summary>
         private void RebindEntryLog()
         {
@@ -358,7 +358,7 @@ namespace CMR.TimeClock.UI
         }
 
         /// <summary>
-        /// Actions to take when the form is closing
+        /// Actions to take when the form is closing.
         /// </summary>
         /// <param name="sender">The source of the call.</param>
         /// <param name="e">Event Arguments.</param>
