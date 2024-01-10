@@ -51,10 +51,13 @@
             staSpring = new ToolStripStatusLabel();
             staTime = new ToolStripStatusLabel();
             tmrDateAndTime = new System.Windows.Forms.Timer(components);
+            statusStrip2 = new StatusStrip();
+            staLastSaved = new ToolStripStatusLabel();
             grpControls.SuspendLayout();
             mnuMainMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvEntryLog).BeginInit();
             statusStrip1.SuspendLayout();
+            statusStrip2.SuspendLayout();
             SuspendLayout();
             // 
             // btnClockIn
@@ -239,7 +242,7 @@
             // statusStrip1
             // 
             statusStrip1.Items.AddRange(new ToolStripItem[] { staFilePath, staSpring, staTime });
-            statusStrip1.Location = new Point(0, 1143);
+            statusStrip1.Location = new Point(0, 1169);
             statusStrip1.Name = "statusStrip1";
             statusStrip1.Size = new Size(594, 22);
             statusStrip1.TabIndex = 12;
@@ -268,12 +271,29 @@
             tmrDateAndTime.Enabled = true;
             tmrDateAndTime.Tick += tmrDateAndTime_Tick;
             // 
+            // statusStrip2
+            // 
+            statusStrip2.Items.AddRange(new ToolStripItem[] { staLastSaved });
+            statusStrip2.Location = new Point(0, 1147);
+            statusStrip2.Name = "statusStrip2";
+            statusStrip2.Size = new Size(594, 22);
+            statusStrip2.SizingGrip = false;
+            statusStrip2.TabIndex = 13;
+            statusStrip2.Text = "statusStrip2";
+            // 
+            // staLastSaved
+            // 
+            staLastSaved.Name = "staLastSaved";
+            staLastSaved.Size = new Size(65, 17);
+            staLastSaved.Text = "Last Saved:";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
-            ClientSize = new Size(594, 1165);
+            ClientSize = new Size(594, 1191);
+            Controls.Add(statusStrip2);
             Controls.Add(statusStrip1);
             Controls.Add(dgvEntryLog);
             Controls.Add(lblStatus);
@@ -291,6 +311,8 @@
             ((System.ComponentModel.ISupportInitialize)dgvEntryLog).EndInit();
             statusStrip1.ResumeLayout(false);
             statusStrip1.PerformLayout();
+            statusStrip2.ResumeLayout(false);
+            statusStrip2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -319,5 +341,7 @@
         private ToolStripStatusLabel staSpring;
         private ToolStripStatusLabel staTime;
         private System.Windows.Forms.Timer tmrDateAndTime;
+        private StatusStrip statusStrip2;
+        private ToolStripStatusLabel staLastSaved;
     }
 }

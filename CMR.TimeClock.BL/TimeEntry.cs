@@ -6,14 +6,18 @@
 // <summary>A simple time clock for logging in and out times.</summary>
 // <author>Craig Reimer</author>
 // <firstPublish>12-7-2023</firstPublish>
-// <lastUpdate>01-02-2024</lastUpdate>
+// <lastUpdate>01-10-2024</lastUpdate>
 //-----------------------------------------------------------------------
 
 namespace CMR.TimeClock.BL
 {
+    using System.Xml.Serialization;
+    using Newtonsoft.Json;
+
     /// <summary>
     /// An object that represents a time entry (hours worked).
     /// </summary>
+    [JsonObject]
     public class TimeEntry
     {
         // fields
@@ -112,6 +116,7 @@ namespace CMR.TimeClock.BL
         /// <summary>
         /// Gets the elapsed time for the current entry.
         /// </summary>
+        [JsonIgnore]
         public string ElapsedTime
         {
             get

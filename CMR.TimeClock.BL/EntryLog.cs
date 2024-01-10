@@ -6,16 +6,19 @@
 // <summary>A simple time clock for logging in and out times.</summary>
 // <author>Craig Reimer</author>
 // <firstPublish>12-7-2023</firstPublish>
-// <lastUpdate>01-02-2024</lastUpdate>
+// <lastUpdate>01-10-2024</lastUpdate>
 //-----------------------------------------------------------------------
 
 namespace CMR.TimeClock.BL
 {
+    using System.Xml.Serialization;
     using CMR.TimeClock.PL;
+    using Newtonsoft.Json;
 
     /// <summary>
-    /// Entry Log. A list of time entries.
+    /// Entry Log. A list of time entry objects.
     /// </summary>
+    [JsonObject]
     public class EntryLog : List<TimeEntry>
     {
         // fields
@@ -29,6 +32,7 @@ namespace CMR.TimeClock.BL
         public EntryLog()
         {
             this.CurrentFilePath = string.Empty; // Initialize the file path, empty by default
+            this.LogCreationDate = DateTime.Now; // Set the log creation date
         }
 
         // properties
@@ -36,20 +40,34 @@ namespace CMR.TimeClock.BL
         /// <summary>
         /// Gets or sets a value indicating whether the log has been changed and needs to be saved.
         /// </summary>
+        [JsonIgnore]
         public bool LogChanged { get; set; } = false; // false by default
 
         /// <summary>
-        /// Gets the current file path.
+        /// Gets or sets the date and time of log creation.
         /// </summary>
+        [JsonProperty]
+        public DateTime LogCreationDate { get; set; } = DateTime.MinValue;
+
+        /// <summary>
+        /// Gets or sets the current file path.
+        /// </summary>
+        [JsonProperty]
         public string CurrentFilePath
         {
             get => this.currentFilePath;
-            private set
+            set
             {
                 this.currentFilePath = value; // Set the local file path
-                DataAccess.XMLFilePath = value; // Set the XML file path
+                DataAccess.FilePath = value; // Set the XML file path
             }
         }
+
+        /// <summary>
+        /// Gets or sets the date and time of the last save event.
+        /// </summary>
+        [JsonProperty]
+        public DateTime LastSaved { get; set; } = DateTime.MinValue;
 
         // methods
 
@@ -93,6 +111,8 @@ namespace CMR.TimeClock.BL
             this.LogChanged = true; // flag the change to be saved
 
             base.Remove(entry); // Remove the entry from the list
+
+            StateManager.ResetClockState(); // reset the default Clock state
         }
 
         /// <summary>
@@ -102,6 +122,7 @@ namespace CMR.TimeClock.BL
         {
             this.LogChanged = false; // reset the flag
             this.CurrentFilePath = string.Empty; // reset the file path
+            this.LastSaved = DateTime.MinValue; // reset the last save date
             StateManager.ResetClockState(); // reset the default Clock state
 
             base.Clear(); // Clear the list
@@ -124,24 +145,29 @@ namespace CMR.TimeClock.BL
         }
 
         /// <summary>
-        /// Sets the file path and redirects to SaveToXML() to save the log.
+        /// Sets the file path and redirects to SaveToJSON() to save the log.
         /// </summary>
         /// <param name="path">The path to which the log should be saved.</param>
-        public void SaveAsXML(string path)
+        public void SaveAs(string path)
         {
             this.CurrentFilePath = path;
 
-            this.SaveToXML();
+            this.SaveToJSON();
         }
 
         /// <summary>
         /// Saves the log to the current file path.
         /// </summary>
-        public void SaveToXML()
+        public void SaveToJSON()
         {
             this.LogChanged = false; // reset the flag
 
-            DataAccess.SaveToXML(typeof(EntryLog), this);
+            this.LastSaved = DateTime.Now; // set the last save time
+
+            // instantiate the converter
+            EntryLogConverter converter = new ();
+
+            DataAccess.SaveToJSON(typeof(EntryLog), this, converter);
         }
 
         /// <summary>
@@ -159,7 +185,14 @@ namespace CMR.TimeClock.BL
 
                 if (obj is EntryLog loadedEntryLog)
                 {
-                    foreach (TimeEntry entry in loadedEntryLog) // Add the retrieved entries to the current log
+                    // retrieve and load the log properties
+                    this.LogCreationDate = loadedEntryLog.LogCreationDate;
+                    this.CurrentFilePath = loadedEntryLog.CurrentFilePath;
+                    this.LastSaved = loadedEntryLog.LastSaved;
+
+
+                    // Add the retrieved entries to the current log
+                    foreach (TimeEntry entry in loadedEntryLog)
                     {
                         this.Add(entry);
                     }
@@ -175,6 +208,42 @@ namespace CMR.TimeClock.BL
             {
                 this.LogChanged = true; // set flag if exception occurs
                 throw new Exception("Error loading from XML: " + ex.Message);
+            }
+        }
+
+        public void LoadFromJSON(string path)
+        {
+            this.CurrentFilePath = path;
+
+            try
+            {
+                EntryLogConverter converter = new ();
+                object obj = DataAccess.LoadFromJSON(typeof(EntryLog), converter);
+
+                if (obj is EntryLog loadedEntryLog)
+                {
+                    // retrieve and load the log properties
+                    this.LogCreationDate = loadedEntryLog.LogCreationDate;
+                    this.CurrentFilePath = loadedEntryLog.CurrentFilePath;
+                    this.LastSaved = loadedEntryLog.LastSaved;
+
+                    // Add the retrieved entries to the current log
+                    foreach (TimeEntry entry in loadedEntryLog)
+                    {
+                        this.Add(entry);
+                    }
+                }
+                else
+                {
+                    throw new Exception("Error loading from JSON: incorrect object type");
+                }
+
+                this.LogChanged = false;
+            }
+            catch (Exception ex)
+            {
+                this.LogChanged = true; // set flag if exception occurs
+                throw new Exception("Error loading from JSON: " + ex.Message);
             }
         }
     }

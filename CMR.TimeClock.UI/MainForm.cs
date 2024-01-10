@@ -6,7 +6,7 @@
 // <summary>A simple time clock for logging in and out times.</summary>
 // <author>Craig Reimer</author>
 // <firstPublish>12-7-2023</firstPublish>
-// <lastUpdate>01-02-2024</lastUpdate>
+// <lastUpdate>01-10-2024</lastUpdate>
 //-----------------------------------------------------------------------
 
 namespace CMR.TimeClock.UI
@@ -200,7 +200,7 @@ namespace CMR.TimeClock.UI
 
             OpenFileDialog dlgOpen = new OpenFileDialog
             {
-                Filter = "XML File|*.xml",
+                Filter = "XML File|*.xml|JSON File|*.json",
             };
 
             if (dlgOpen.ShowDialog() == DialogResult.OK)
@@ -209,7 +209,15 @@ namespace CMR.TimeClock.UI
 
                 try
                 {
-                    this.entryLog.LoadFromXML(dlgOpen.FileName); // load the new log
+                    if (Path.GetExtension(dlgOpen.FileName) == ".json")
+                    {
+                        this.entryLog.LoadFromJSON(dlgOpen.FileName); // load the new log
+                    }
+
+                    if (Path.GetExtension(dlgOpen.FileName) == ".xml")
+                    {
+                        this.entryLog.LoadFromXML(dlgOpen.FileName); // load the new log
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -239,12 +247,14 @@ namespace CMR.TimeClock.UI
 
             try
             {
-                this.entryLog.SaveToXML();
+                this.entryLog.SaveToJSON();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }
+
+            this.UpdateStatusStrip();
         }
 
         /// <summary>
@@ -256,14 +266,14 @@ namespace CMR.TimeClock.UI
         {
             SaveFileDialog dlgSave = new SaveFileDialog
             {
-                Filter = "XML File|*.xml",
+                Filter = "JSON File|*.json", // TODO: Return to XML if not using JSON
             };
 
             if (dlgSave.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    this.entryLog.SaveAsXML(dlgSave.FileName);
+                    this.entryLog.SaveAs(dlgSave.FileName);
                 }
                 catch (Exception ex)
                 {
@@ -307,12 +317,22 @@ namespace CMR.TimeClock.UI
         }
 
         /// <summary>
-        /// Updates the status strip, displaying the current file path.
+        /// Updates the status strips, displaying the current file path and the last saved time.
         /// </summary>
         private void UpdateStatusStrip()
         {
             // display file path or "--Untitled--" if no path is set
             this.staFilePath.Text = "File: " + (this.entryLog.HasValidPath() ? this.entryLog.CurrentFilePath : "--Untitled--");
+
+            // display last saved time
+            if (this.entryLog.LastSaved == DateTime.MinValue)
+            {
+                this.staLastSaved.Text = "Last Saved: --Never Saved--";
+            }
+            else
+            {
+                this.staLastSaved.Text = "Last Saved: " + this.entryLog.LastSaved.ToString("MM-dd-yyyy HH:mm:ss");
+            }
         }
 
         /// <summary>

@@ -87,6 +87,7 @@ namespace CMR.TimeClock.BL
         {
             DateTime punchEvent = DateTime.Now; // get current time
             punchEvent = punchEvent.AddSeconds(-punchEvent.Second); // remove seconds
+            punchEvent = punchEvent.AddMilliseconds(-punchEvent.Millisecond); // remove milliseconds
 
             TimeEntry timeEntry; // create time entry variable
 
@@ -116,6 +117,7 @@ namespace CMR.TimeClock.BL
         {
             DateTime punchEvent = DateTime.Now; // get current time
             punchEvent = punchEvent.AddSeconds(-punchEvent.Second); // remove seconds
+            punchEvent = punchEvent.AddMilliseconds(-punchEvent.Millisecond); // remove milliseconds
 
             // TODO: Abstract to own method
             // get the last entry
