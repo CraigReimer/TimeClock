@@ -6,7 +6,7 @@
 // <summary>A simple time clock for logging in and out times.</summary>
 // <author>Craig Reimer</author>
 // <firstPublish>12-7-2023</firstPublish>
-// <lastUpdate>01-08-2024</lastUpdate>
+// <lastUpdate>01-10-2024</lastUpdate>
 //-----------------------------------------------------------------------
 
 namespace CMR.TimeClock.PL
@@ -44,10 +44,10 @@ namespace CMR.TimeClock.PL
         // methods
 
         /// <summary>
-        /// Saves an object to an XML file.
+        /// Serializes and writes an object to an XML file.
         /// </summary>
-        /// <param name="type">The type of object to save. In this case, EntryLog.</param>
-        /// <param name="o">The object to be saved. In this case, the entryLog.</param>
+        /// <param name="type">The type of object to save.</param>
+        /// <param name="o">The object to be saved.</param>
         /// <exception cref="Exception">XML File Path not specified.</exception>
         public static void SaveToXML(Type type, object o)
         {
@@ -63,11 +63,11 @@ namespace CMR.TimeClock.PL
         }
 
         /// <summary>
-        /// Loads an object from an XML file.
+        /// Deserializes an object from an XML file.
         /// </summary>
-        /// <param name="type">The type of object to load. In this case, EntryLog.</param>
-        /// <returns>The retrieved object.</returns>
-        /// <exception cref="Exception">XML File Path not specified.</exception>
+        /// <param name="type">The type of object to deserialize.</param>
+        /// <returns>A deserialized object.</returns>
+        /// <exception cref="Exception">File Path not specified.</exception>
         public static object LoadFromXML(Type type)
         {
             if (FilePath == string.Empty)
@@ -77,12 +77,19 @@ namespace CMR.TimeClock.PL
 
             StreamReader reader = new (FilePath);
             XmlSerializer serializer = new (type);
-            object obj = serializer.Deserialize(reader) !;
+            object result = serializer.Deserialize(reader) !;
             reader.Close();
 
-            return obj;
+            return result;
         }
 
+        /// <summary>
+        /// Serializes and writes an object to a JSON file.
+        /// </summary>
+        /// <param name="type">The type of object to save.</param>
+        /// <param name="o">The object to be saved.</param>
+        /// <param name="converter">A converter to define the JSON serialization process.</param>
+        /// <exception cref="Exception">File Path not specified.</exception>
         public static void SaveToJSON(Type type, object o, JsonConverter converter)
         {
             if (FilePath == string.Empty)
@@ -101,6 +108,13 @@ namespace CMR.TimeClock.PL
             }
         }
 
+        /// <summary>
+        /// Deserializes an object from a JSON file.
+        /// </summary>
+        /// <param name="type">The type of object to deserialize.</param>
+        /// <param name="converter">A converter to define the deserialization process.</param>
+        /// <returns>A deserialized object.</returns>
+        /// <exception cref="Exception">File Path not specified.</exception>
         public static object LoadFromJSON(Type type, JsonConverter converter)
         {
             if (FilePath == string.Empty)

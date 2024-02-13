@@ -37,7 +37,7 @@ namespace CMR.TimeClock.BL
         /// <returns></returns>
         public override EntryLog? ReadJson(JsonReader reader, Type objectType, EntryLog? existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
-            if (reader.TokenType == JsonToken.Null || !hasExistingValue)
+            if (reader.TokenType == JsonToken.Null)
             {
                 return null;
             }
