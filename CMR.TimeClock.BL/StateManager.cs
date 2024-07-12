@@ -85,9 +85,7 @@ namespace CMR.TimeClock.BL
         /// <param name="isTraining">True if the work entry is 'Training' time. False indicates entry is 'Working' time.</param>
         public static void ClockIn(EntryLog entryLog, bool isTraining = false)
         {
-            DateTime punchEvent = DateTime.Now; // get current time
-            punchEvent = punchEvent.AddSeconds(-punchEvent.Second); // remove seconds
-            punchEvent = punchEvent.AddMilliseconds(-punchEvent.Millisecond); // remove milliseconds
+            DateTime punchEvent = TimeCleaner(DateTime.Now); // get current time
 
             TimeEntry timeEntry; // create time entry variable
 
@@ -115,9 +113,7 @@ namespace CMR.TimeClock.BL
         /// <param name="entryLog">The Entry Log in which the 'In' punch should be found.</param>
         public static void ClockOut(EntryLog entryLog)
         {
-            DateTime punchEvent = DateTime.Now; // get current time
-            punchEvent = punchEvent.AddSeconds(-punchEvent.Second); // remove seconds
-            punchEvent = punchEvent.AddMilliseconds(-punchEvent.Millisecond); // remove milliseconds
+            DateTime punchEvent = TimeCleaner(DateTime.Now); // get current time
 
             // TODO: Abstract to own method
             // get the last entry
@@ -139,6 +135,17 @@ namespace CMR.TimeClock.BL
         public static void ResetClockState()
         {
             currentState = ClockState.ClockedOut; // set the punch state
+        }
+
+        /// <summary>
+        /// Removes SECONDS and MILLISECONDS from a DateTime object.
+        /// </summary>
+        /// <param name="time">The time to be cleaned.</param>
+        public static DateTime TimeCleaner(DateTime time)
+        {
+            time = time.AddSeconds(-time.Second).AddMilliseconds(-time.Millisecond);
+            time = time;
+            return time;
         }
     }
 }
