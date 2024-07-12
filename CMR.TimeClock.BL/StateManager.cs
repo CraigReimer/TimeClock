@@ -6,12 +6,11 @@
 // <summary>A simple time clock for logging in and out times.</summary>
 // <author>Craig Reimer</author>
 // <firstPublish>12-7-2023</firstPublish>
-// <lastUpdate>01-02-2024</lastUpdate>
+// <lastUpdate>07-12-2024</lastUpdate>
 //-----------------------------------------------------------------------
 
 namespace CMR.TimeClock.BL
 {
-    using System.Threading;
 
     /// <summary>
     /// Clock State Manager. Responsible for managing the clock state, triggering punch events, and returning shift time.
@@ -95,7 +94,7 @@ namespace CMR.TimeClock.BL
             }
             else
             {
-                timeEntry = new TimeEntry(punchEvent); // initialize a new 'working' time entry
+                timeEntry = new TimeEntry(punchEvent, TimeEntry.TimeType.Working); // initialize a new 'working' time entry
             }
 
             entryLog.Add(timeEntry); // add time entry to log

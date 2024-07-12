@@ -20,11 +20,11 @@ namespace CMR.TimeClock.BL
     [JsonObject]
     public class TimeEntry
     {
-        // fields
+        // FIELDS
         private DateTime timeIn;
         private DateTime timeOut;
 
-        // constructors
+        // CONSTRUCTORS
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeEntry"/> class.
@@ -35,19 +35,12 @@ namespace CMR.TimeClock.BL
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeEntry"/> class.
-        /// </summary>
-        /// <param name="timeIn">The start time of the shift.</param>
-        public TimeEntry(DateTime timeIn)
-        {
-            this.TimeIn = timeIn;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TimeEntry"/> class.
+        /// Only used by the EntryLog.LoadTestData() method.
         /// </summary>
         /// <param name="timeIn">The start time of the shift.</param>
         /// <param name="timeOut">The end time of the shift.</param>
-        public TimeEntry(DateTime timeIn, DateTime timeOut)
+        /// /// <param name="entryType">The type of time entry.</param>
+        public TimeEntry(DateTime timeIn, DateTime timeOut, TimeType entryType)
         {
             this.TimeIn = timeIn;
             this.TimeOut = timeOut;
@@ -64,7 +57,7 @@ namespace CMR.TimeClock.BL
             this.EntryType = entryType;
         }
 
-        // enums
+        // ENUMS
 
         /// <summary>
         /// Types of time entries.
@@ -82,7 +75,7 @@ namespace CMR.TimeClock.BL
             Training,
         }
 
-        // properties
+        // PROPERTIES
 
         /// <summary>
         /// Gets or sets the Entry ID.

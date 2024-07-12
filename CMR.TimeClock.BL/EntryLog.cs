@@ -78,13 +78,13 @@ namespace CMR.TimeClock.BL
         {
             TimeEntry timeEntry;
 
-            timeEntry = new TimeEntry(DateTime.Parse("2020-10-02 10:00:00"), DateTime.Parse("2020-10-01 12:00:00"));
+            timeEntry = new TimeEntry(DateTime.Parse("2020-10-02 10:00:00"), DateTime.Parse("2020-10-01 12:00:00"), TimeEntry.TimeType.Working);
             this.Add(timeEntry);
 
-            timeEntry = new TimeEntry(DateTime.Parse("2020-10-02 12:00:00"), DateTime.Parse("2020-10-02 13:00:00"));
+            timeEntry = new TimeEntry(DateTime.Parse("2020-10-02 12:00:00"), DateTime.Parse("2020-10-02 13:00:00"), TimeEntry.TimeType.Training);
             this.Add(timeEntry);
 
-            timeEntry = new TimeEntry(DateTime.Parse("2020-10-03 11:00:00"), DateTime.Parse("2020-10-03 14:00:00"));
+            timeEntry = new TimeEntry(DateTime.Parse("2020-10-03 11:00:00"), DateTime.Parse("2020-10-03 14:00:00"), TimeEntry.TimeType.Working);
             this.Add(timeEntry);
         }
 
