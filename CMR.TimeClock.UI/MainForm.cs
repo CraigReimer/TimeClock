@@ -200,7 +200,7 @@ namespace CMR.TimeClock.UI
 
             OpenFileDialog dlgOpen = new OpenFileDialog
             {
-                Filter = "XML File|*.xml|JSON File|*.json",
+                Filter = "JSON File|*.json|XML File|*.xml",
             };
 
             if (dlgOpen.ShowDialog() == DialogResult.OK)

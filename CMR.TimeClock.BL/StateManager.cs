@@ -143,7 +143,7 @@ namespace CMR.TimeClock.BL
         public static DateTime TimeCleaner(DateTime time)
         {
             time = time.AddSeconds(-time.Second).AddMilliseconds(-time.Millisecond);
-            time = time;
+            time = time.AddTicks(-(time.Ticks % TimeSpan.TicksPerSecond));
             return time;
         }
     }

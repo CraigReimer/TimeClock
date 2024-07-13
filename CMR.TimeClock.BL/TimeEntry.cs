@@ -35,6 +35,17 @@ namespace CMR.TimeClock.BL
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeEntry"/> class.
+        /// </summary>
+        /// <param name="timeIn">The start time of the shift.</param>
+        /// <param name="entryType">The type of time entry.</param>
+        public TimeEntry(DateTime timeIn, TimeType entryType)
+        {
+            this.TimeIn = timeIn;
+            this.EntryType = entryType;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TimeEntry"/> class.
         /// Only used by the EntryLog.LoadTestData() method.
         /// </summary>
         /// <param name="timeIn">The start time of the shift.</param>
@@ -44,17 +55,6 @@ namespace CMR.TimeClock.BL
         {
             this.TimeIn = timeIn;
             this.TimeOut = timeOut;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="TimeEntry"/> class.
-        /// </summary>
-        /// <param name="timeIn">The start time of the shift.</param>
-        /// <param name="entryType">The type of time entry.</param>
-        public TimeEntry(DateTime timeIn, TimeType entryType)
-        {
-            this.TimeIn = timeIn;
-            this.EntryType = entryType;
         }
 
         // ENUMS
@@ -90,7 +90,7 @@ namespace CMR.TimeClock.BL
             get => this.timeIn;
             set
             {
-                this.timeIn = value.AddSeconds(-value.Second);
+                this.timeIn = value;
             }
         }
 
@@ -102,7 +102,7 @@ namespace CMR.TimeClock.BL
             get => this.timeOut;
             set
             {
-                this.timeOut = value.AddSeconds(-value.Second);
+                this.timeOut = value;
             }
         }
 
