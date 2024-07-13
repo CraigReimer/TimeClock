@@ -137,14 +137,16 @@ namespace CMR.TimeClock.BL
         }
 
         /// <summary>
-        /// Removes SECONDS and MILLISECONDS from a DateTime object.
+        /// Rounds DOWN a DateTime object to the nearest MINUTE.
         /// </summary>
-        /// <param name="time">The time to be cleaned.</param>
+        /// <param name="time">The time object to be cleaned.</param>
+        /// <returns>The cleaned time object.</returns>
         public static DateTime TimeCleaner(DateTime time)
         {
-            time = time.AddSeconds(-time.Second).AddMilliseconds(-time.Millisecond);
-            time = time.AddTicks(-(time.Ticks % TimeSpan.TicksPerSecond));
-            return time;
+            // Remove seconds and milliseconds by setting them to zero
+            DateTime cleanTime = new DateTime(time.Year, time.Month, time.Day, time.Hour, time.Minute, 0, 0, time.Kind);
+
+            return cleanTime;
         }
     }
 }
