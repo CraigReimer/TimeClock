@@ -6,12 +6,11 @@
 // <summary>A simple time clock for logging in and out times.</summary>
 // <author>Craig Reimer</author>
 // <firstPublish>12-7-2023</firstPublish>
-// <lastUpdate>07-12-2024</lastUpdate>
+// <lastUpdate>07-16-2024</lastUpdate>
 //-----------------------------------------------------------------------
 
 namespace CMR.TimeClock.BL
 {
-
     /// <summary>
     /// Clock State Manager. Responsible for managing the clock state, triggering punch events, and returning shift time.
     /// </summary>
@@ -24,7 +23,7 @@ namespace CMR.TimeClock.BL
         // static constructor
         static StateManager()
         {
-            currentState = ClockState.ClockedOut; // Initial state: ClockedOut
+            SetCurrentState(ClockState.ClockedOut); // Initial state: ClockedOut
         }
 
         // enums
@@ -73,14 +72,14 @@ namespace CMR.TimeClock.BL
 
                 return string.Empty;
             }
-    }
+        }
 
         // methods
 
         /// <summary>
         /// Creates a new time entry and adds it to the specified Entry Log.
         /// </summary>
-        /// <param name="entryLog">The Entry Log to which the entry should be written.</param>
+        /// <param name="entryLog">The Entry Log to which the entry will be written.</param>
         /// <param name="isTraining">True if the work entry is 'Training' time. False indicates entry is 'Working' time.</param>
         public static void ClockIn(EntryLog entryLog, bool isTraining = false)
         {
@@ -99,9 +98,7 @@ namespace CMR.TimeClock.BL
 
             entryLog.Add(timeEntry); // add time entry to log
 
-            currentState = ClockState.ClockedIn; // change the punch state
-
-            entryLog.LogChanged = true;  // flag the log as changed
+            SetCurrentState(ClockState.ClockedIn); // change the punch state
 
             lastPunchIn = punchEvent; // set the last punch in for shift duration calc
         }
@@ -123,7 +120,7 @@ namespace CMR.TimeClock.BL
                 lastEntry.TimeOut = punchEvent; // set the time out
             }
 
-            currentState = ClockState.ClockedOut; // change the punch state
+            SetCurrentState(ClockState.ClockedOut); // change the punch state
 
             entryLog.LogChanged = true;  // flag the log as changed
         }
@@ -133,7 +130,7 @@ namespace CMR.TimeClock.BL
         /// </summary>
         public static void ResetClockState()
         {
-            currentState = ClockState.ClockedOut; // set the punch state
+            SetCurrentState(ClockState.ClockedOut); // set the punch state
         }
 
         /// <summary>
@@ -147,6 +144,15 @@ namespace CMR.TimeClock.BL
             DateTime cleanTime = new DateTime(time.Year, time.Month, time.Day, time.Hour, time.Minute, 0, 0, time.Kind);
 
             return cleanTime;
+        }
+
+        /// <summary>
+        /// Sets the current state according to the input.
+        /// </summary>
+        /// <param name="state">The state to set.</param>
+        public static void SetCurrentState(ClockState state)
+        {
+            currentState = state;
         }
     }
 }

@@ -190,7 +190,6 @@ namespace CMR.TimeClock.BL
                     this.CurrentFilePath = loadedEntryLog.CurrentFilePath;
                     this.LastSaved = loadedEntryLog.LastSaved;
 
-
                     // Add the retrieved entries to the current log
                     foreach (TimeEntry entry in loadedEntryLog)
                     {

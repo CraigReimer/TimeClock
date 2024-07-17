@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="TimeEntry.cs" company="Craig Reimer">
-//     Copyright (c) Craig Reimer. All rights reserved.
+// Copyright (c) Craig Reimer. All rights reserved.
 // </copyright>
 // <title>TimeClock</title>
 // <summary>A simple time clock for logging in and out times.</summary>

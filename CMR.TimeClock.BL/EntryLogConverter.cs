@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="DataAccess.cs" company="Craig Reimer">
+// <copyright file="EntryLogConverter.cs" company="Craig Reimer">
 //     Copyright (c) Craig Reimer. All rights reserved.
 // </copyright>
 // <title>TimeClock</title>
@@ -82,28 +82,31 @@ namespace CMR.TimeClock.BL
         {
             var jObject = new JObject();
 
-            // Serialize other properties marked with [JsonProperty]
-            jObject.Add("LogCreationDate", new JValue(value.LogCreationDate));
-            jObject.Add("CurrentFilePath", new JValue(value.CurrentFilePath));
-            jObject.Add("LastSaved", new JValue(value.LastSaved));
-
-            // Convert the list of TimeEntry objects to a JArray
-            var timeEntriesArray = new JArray();
-            foreach (var timeEntry in value)
+            if (value != null)
             {
-                var timeEntryObject = new JObject();
-                timeEntryObject.Add("StartTime", new JValue(timeEntry.TimeIn));
-                timeEntryObject.Add("EndTime", new JValue(timeEntry.TimeOut));
-                timeEntryObject.Add("IsLogged", new JValue(timeEntry.IsLogged));
-                timeEntryObject.Add("EntryType", new JValue(timeEntry.EntryType));
+                // Serialize other properties marked with [JsonProperty]
+                jObject.Add("LogCreationDate", new JValue(value.LogCreationDate));
+                jObject.Add("CurrentFilePath", new JValue(value.CurrentFilePath));
+                jObject.Add("LastSaved", new JValue(value.LastSaved));
 
-                timeEntriesArray.Add(timeEntryObject);
+                // Convert the list of TimeEntry objects to a JArray
+                var timeEntriesArray = new JArray();
+                foreach (var timeEntry in value)
+                {
+                    var timeEntryObject = new JObject();
+                    timeEntryObject.Add("StartTime", new JValue(timeEntry.TimeIn));
+                    timeEntryObject.Add("EndTime", new JValue(timeEntry.TimeOut));
+                    timeEntryObject.Add("IsLogged", new JValue(timeEntry.IsLogged));
+                    timeEntryObject.Add("EntryType", new JValue(timeEntry.EntryType));
+
+                    timeEntriesArray.Add(timeEntryObject);
+                }
+
+                jObject.Add("TimeEntries", timeEntriesArray);
+
+                // Write the JObject to the writer
+                jObject.WriteTo(writer);
             }
-
-            jObject.Add("TimeEntries", timeEntriesArray);
-
-            // Write the JObject to the writer
-            jObject.WriteTo(writer);
         }
     }
 }

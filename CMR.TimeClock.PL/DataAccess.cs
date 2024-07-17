@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 // <copyright file="DataAccess.cs" company="Craig Reimer">
-//     Copyright (c) Craig Reimer. All rights reserved.
+// Copyright (c) Craig Reimer. All rights reserved.
 // </copyright>
 // <title>TimeClock</title>
 // <summary>A simple time clock for logging in and out times.</summary>
@@ -11,10 +11,8 @@
 
 namespace CMR.TimeClock.PL
 {
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
-    using System.Xml;
     using System.Xml.Serialization;
+    using Newtonsoft.Json;
 
     /// <summary>
     /// Data Access. Provides methods to save and load data from XML files.
